@@ -1,11 +1,347 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Giorgia Zucchi</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giorgia · Onicotecnica · 5 sedute gratuite</title>
+<meta name="description" content="Sono Giorgia, onicotecnica agli inizi. Cerco 5 persone tra Lecco, Como e Bergamo per le mie prime sedute: gratis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f6f6; --card:#ffffff; --ink:#111111; --muted:#6b6b6b; --line:#e9e9e9;
+    --orange:#f04e0f; --orange-soft:#fde4d9;
+    --pink:#e0457b; --pink-soft:#fbe1ea;
+    --green:#1f9d55; --green-soft:#dcf3e6;
+    --blue:#4a72e8; --blue-soft:#e1e8fc;
+    --amber:#f29b0c; --amber-soft:#fdf0d6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+
+  /* NAV a pillola */
+  .nav{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:6px;background:#111;color:#fff;border-radius:16px;padding:6px 6px 6px 14px;box-shadow:0 8px 24px rgba(0,0,0,.18);white-space:nowrap}
+  .nav .logo{font-weight:800;letter-spacing:-.04em;font-size:17px;margin-right:10px;line-height:1}
+  .nav .logo span{color:var(--orange)}
+  .nav a.l{font-size:13px;color:#d6d6d6;padding:6px 8px;border-radius:8px}
+  .nav a.l:hover{color:#fff}
+  .nav .cta{background:var(--orange);color:#fff;font-weight:600;font-size:13px;padding:7px 12px;border-radius:11px}
+  @media (max-width:600px){.nav a.l{display:none}}
+
+  /* HERO */
+  .hero{text-align:center;padding:100px 16px 0}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:500}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(240,78,15,.5);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(240,78,15,.5)}70%{box-shadow:0 0 0 8px rgba(240,78,15,0)}100%{box-shadow:0 0 0 0 rgba(240,78,15,0)}}
+  h1{font-size:clamp(40px,7vw,64px);line-height:1.02;letter-spacing:-.045em;font-weight:800;max-width:760px;margin:18px auto 0}
+  .lead{color:var(--muted);font-size:16px;max-width:470px;margin:16px auto 0}
+  .btn{display:inline-flex;align-items:center;gap:6px;background:var(--orange);color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:999px;margin-top:22px;transition:transform .15s, box-shadow .15s}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(240,78,15,.3)}
+  .seats{display:flex;justify-content:center;gap:6px;margin-top:16px;align-items:center;font-size:13px;color:var(--muted)}
+  .seat{width:22px;height:22px;border-radius:50%;background:var(--orange-soft);border:2px solid #fff;display:grid;place-items:center;font-size:11px;margin-left:-6px}
+  .seat:first-child{margin-left:0}
+  .seats b{color:var(--ink)}
+
+  /* MAPPA */
+  .map-wrap{position:relative;max-width:1100px;margin:36px auto 0;padding:0 16px}
+  #map{height:560px;border-radius:48% 48% 28px 28px / 28% 28% 28px 28px;overflow:hidden;box-shadow:0 0 0 10px rgba(110,170,255,.12), 0 30px 60px -30px rgba(0,0,0,.25)}
+  .map-fade{position:absolute;left:16px;right:16px;bottom:0;height:90px;background:linear-gradient(to bottom,rgba(246,246,246,0),var(--bg));pointer-events:none;border-radius:0 0 28px 28px}
+  .map-tag{position:absolute;left:50%;transform:translateX(-50%);bottom:24px;background:#111;color:#fff;font-size:12px;font-weight:600;padding:8px 14px;border-radius:999px;z-index:2;white-space:nowrap}
+  .pin{width:14px;height:14px;border-radius:50%;background:var(--orange);border:2px solid #fff;box-shadow:0 0 0 6px rgba(240,78,15,.22);cursor:default}
+  .pin.big{width:18px;height:18px;box-shadow:0 0 0 10px rgba(240,78,15,.2)}
+  .pin-label{font:600 11px Inter,sans-serif;color:#111;background:rgba(255,255,255,.92);padding:2px 7px;border-radius:6px;margin-top:4px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .pin-box{display:flex;flex-direction:column;align-items:center}
+  @media (max-width:600px){
+    #map{height:460px;border-radius:40% 40% 22px 22px / 14% 14% 22px 22px}
+    .map-tag{bottom:10px}    .stat{min-width:0;flex:1;padding:10px 6px}
+    .stat b{font-size:16px}
+    .stats{flex-wrap:nowrap;max-width:360px;margin-left:auto;margin-right:auto}
+  }
+
+  /* SEZIONI */
+  section{padding:80px 16px 0}
+  .center{text-align:center}
+  h2{font-size:clamp(32px,5vw,46px);line-height:1.05;letter-spacing:-.04em;font-weight:800;max-width:720px;margin:0 auto}
+  .sub{color:var(--muted);font-size:15px;max-width:460px;margin:14px auto 0}
+  .stats{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:28px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:16px;min-width:84px;padding:12px 16px;text-align:center}
+  .stat b{display:block;font-size:20px;letter-spacing:-.02em}
+  .stat span{font-size:11px;color:var(--muted)}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:680px;margin:48px auto 0}
+  @media (max-width:700px){.grid{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;overflow:hidden}
+  .ic{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px}
+  .kick{font-weight:600;font-size:15px;margin-top:16px}
+  .card h3{font-size:19px;line-height:1.25;letter-spacing:-.02em;font-weight:700;margin-top:2px}
+  .checks{list-style:none;margin-top:14px;display:grid;gap:7px}
+  .checks li{font-size:13px;display:flex;gap:9px;align-items:flex-start}
+  .checks li::before{content:"✓";font-size:11px;font-weight:700;margin-top:2px}
+  .c-orange .kick,.c-orange .checks li::before{color:var(--orange)} .c-orange .ic{background:var(--orange-soft)}
+  .c-pink .kick,.c-pink .checks li::before{color:var(--pink)} .c-pink .ic{background:var(--pink-soft)}
+  .c-green .kick,.c-green .checks li::before{color:var(--green)} .c-green .ic{background:var(--green-soft)}
+  .c-blue .kick,.c-blue .checks li::before{color:var(--blue)} .c-blue .ic{background:var(--blue-soft)}
+  .pill{display:inline-block;margin-top:16px;border:1px solid var(--line);border-radius:999px;font-size:12px;font-weight:600;padding:6px 12px}
+  .photo{margin:22px -6px -6px;border-radius:14px;aspect-ratio:4/3;background:linear-gradient(135deg,#f7d9e3,#f3e6dd);transform:rotate(-1.5deg);box-shadow:0 12px 24px -10px rgba(0,0,0,.25);display:grid;place-items:center;font-size:40px;overflow:hidden}
+  .photo img{width:100%;height:100%;object-fit:cover}
+  .steps{list-style:none;margin-top:14px;display:grid;gap:10px;counter-reset:s}
+  .steps li{display:flex;gap:12px;align-items:center;font-size:13px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  .steps li::before{counter-increment:s;content:counter(s);width:22px;height:22px;flex:none;border-radius:50%;background:var(--blue-soft);color:var(--blue);font-weight:700;font-size:12px;display:grid;place-items:center}
+
+  .big-quote{color:var(--orange)}
+
+  /* LETTERA */
+  .letter{position:relative;max-width:540px;margin:80px auto 0;background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px 26px 24px}
+  .letter .who{display:flex;gap:12px;align-items:center}
+  .avatar{width:40px;height:40px;border-radius:50%;background:var(--pink-soft);display:grid;place-items:center;font-size:18px;overflow:hidden}
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  .letter .who b{font-size:14px;display:block}
+  .letter .who span{font-size:12px;color:var(--muted)}
+  .letter p{font-size:14px;margin-top:14px;max-width:300px}
+  .sign{margin-top:16px;font-size:13px}
+  .sign b{border-bottom:2px solid var(--orange)}
+  .sign span{color:var(--muted);font-size:12px}
+  .polas{position:absolute;right:-30px;top:-34px;width:190px;height:230px}
+  .pola{position:absolute;background:#fff;padding:8px 8px 30px;box-shadow:0 14px 30px -12px rgba(0,0,0,.35);border-radius:3px}
+  .pola .ph{width:130px;height:150px;background:linear-gradient(135deg,#f6cfdc,#f0e1d6);display:grid;place-items:center;font-size:34px;overflow:hidden}
+  .pola .ph img{width:100%;height:100%;object-fit:cover}
+  .pola.a{right:40px;top:16px;transform:rotate(-8deg)}
+  .pola.b{right:0;top:0;transform:rotate(5deg)}
+  @media (max-width:700px){.letter p{max-width:none}.polas{position:relative;right:auto;top:auto;margin:-10px auto 14px;width:200px;height:210px}}
+
+  /* FAQ */
+  .faq{max-width:540px;margin:80px auto 0}
+  .faq h2{text-align:left;margin:0 0 14px}
+  details{border-top:1px solid var(--line)}
+  details:last-child{border-bottom:1px solid var(--line)}
+  summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;padding:14px 0}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-weight:400;color:var(--muted);transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{font-size:14px;color:var(--muted);padding:0 0 16px}
+
+  /* CHIUSURA */
+  .final{max-width:620px;margin:80px auto 0;border-radius:24px;background:#111;color:#fff;padding:40px 28px;text-align:center;position:relative;overflow:hidden}
+  .final::before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 30% 20%,rgba(240,78,15,.35),transparent 45%),radial-gradient(circle at 80% 90%,rgba(224,69,123,.3),transparent 45%)}
+  .final *{position:relative}
+  .final small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#bbb}
+  .final h2{color:#fff;margin-top:8px}
+  .final p{color:#cfcfcf;font-size:14px;margin-top:10px}
+  .btn.white{background:#fff;color:#111}
+
+  footer{text-align:center;font-size:12px;color:var(--muted);padding:40px 16px 60px}
+  footer a{text-decoration:underline}
+
+  /* comparsa allo scroll */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.on{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.dot{animation:none}}
+</style>
 </head>
-<body style="background:#fff; margin:0; font-family:sans-serif;">
-  <h1>ciao</h1>
+<body>
+
+<nav class="nav">
+  <a href="#top" class="logo">giorgia<span>.</span></a>
+  <a class="l" href="#zona">Zona</a>
+  <a class="l" href="#come">Come funziona</a>
+  <a class="l" href="#faq">FAQ</a>
+  <a class="cta js-form" href="#">Prenota →</a>
+</nav>
+
+<header class="hero" id="top">
+  <div class="chip"><i class="dot"></i> Solo 5 posti gratuiti · Lecco · Como · Bergamo</div>
+  <h1>Le tue unghie possono essere le mie prime&nbsp;5.</h1>
+  <p class="lead">Sono Giorgia e sto diventando onicotecnica. Cerco 5 persone per le mie prime sedute: <b>gratis</b>, perché sto ancora imparando.</p>
+  <a class="btn js-form" href="#">Prenota la tua seduta gratuita →</a>
+  <div class="seats">
+    <span class="seat">💅</span><span class="seat">💅</span><span class="seat">💅</span><span class="seat">💅</span><span class="seat">💅</span>
+    &nbsp;<span><b>5</b> posti disponibili</span>
+  </div>
+</header>
+
+<div class="map-wrap reveal" id="zona">
+  <div id="map" aria-label="Mappa della zona: da Colico e il lago di Lecco fino a Como, Bergamo e Cologno al Serio"></div>
+  <div class="map-fade"></div>
+  <div class="map-tag">📍 Da Colico a Cologno al Serio</div>
+</div>
+
+<section class="center reveal">
+  <h2>Cinque sedute. Una persona alla volta. Gratis.</h2>
+  <p class="sub">Ho finito il corso base e adesso mi serve una cosa sola: mani vere su cui fare pratica. Le tue.</p>
+  <div class="stats">
+    <div class="stat"><b>5</b><span>posti</span></div>
+    <div class="stat"><b>€0</b><span>la seduta</span></div>
+    <div class="stat"><b>1:1</b><span>solo io e te</span></div>
+    <div class="stat"><b>LC·CO·BG</b><span>la zona</span></div>
+  </div>
+</section>
+
+<div class="grid" id="come">
+  <div class="card c-orange reveal">
+    <div class="ic">💕</div>
+    <div class="kick">Perché gratis</div>
+    <h3>Sto imparando. E voglio farlo bene.</h3>
+    <ul class="checks">
+      <li>Ho fatto il corso base con Veronica Nails Como</li>
+      <li>Ora mi servono 5 persone per fare pratica</li>
+      <li>Ci metto tutto il tempo e la cura che servono</li>
+    </ul>
+    <a class="pill js-form" href="#">Prendi un posto ›</a>
+  </div>
+
+  <div class="card c-pink reveal">
+    <div class="ic">💅</div>
+    <div class="kick">Cosa facciamo</div>
+    <h3>Semipermanente rinforzato, curato nei dettagli.</h3>
+    <ul class="checks">
+      <li>Prima guardiamo insieme le tue unghie</li>
+      <li>Scegliamo forma e colore che ti piacciono</li>
+      <li>Alla fine mi dici sinceramente com'è andata</li>
+    </ul>
+    <div class="photo"><!-- FOTO: lavoro di Giorgia -->💅</div>
+  </div>
+
+  <div class="card c-green reveal">
+    <div class="ic">📍</div>
+    <div class="kick">La zona</div>
+    <h3>Tra il lago di Lecco, Como e Bergamo.</h3>
+    <ul class="checks">
+      <li>Lago di Lecco, fino a Colico</li>
+      <li>Como e dintorni</li>
+      <li>Provincia di Bergamo, fino a Cologno al Serio</li>
+      <li>Verso sud, non oltre Capriate</li>
+    </ul>
+    <a class="pill" href="#zona">Guarda la mappa ›</a>
+  </div>
+
+  <div class="card c-blue reveal">
+    <div class="ic">✨</div>
+    <div class="kick">Come funziona</div>
+    <h3>Tre passi, e il posto è tuo.</h3>
+    <ol class="steps">
+      <li>Compili il modulo: due minuti</li>
+      <li>Ti scrivo io per fissare giorno e ora</li>
+      <li>Ci vediamo per la tua seduta</li>
+    </ol>
+  </div>
+</div>
+
+<section class="center reveal">
+  <h2 class="big-quote">Non sono ancora perfetta. Ma ci metto tutto il cuore.</h2>
+  <p class="sub">Sto raccontando su Instagram ogni passo del mio percorso, anche i giorni in cui non va tutto liscio. Tu puoi farne parte.</p>
+  <a class="btn js-form" href="#">Prenota la tua seduta gratuita →</a>
+</section>
+
+<div class="letter reveal">
+  <div class="polas" aria-hidden="true">
+    <div class="pola a"><div class="ph"><!-- FOTO -->💅</div></div>
+    <div class="pola b"><div class="ph"><!-- FOTO Giorgia -->🫶🏻</div></div>
+  </div>
+  <div class="who">
+    <div class="avatar"><!-- FOTO profilo -->🫶🏻</div>
+    <div><b>Un messaggio da Giorgia</b><span>Onicotecnica agli inizi</span></div>
+  </div>
+  <p>Ciao, sono Giorgia 🫶🏻</p>
+  <p>Da qualche mese ho deciso di inseguire un sogno: diventare onicotecnica. Ho iniziato dal corso base e adesso è il momento più importante, quello della pratica.</p>
+  <p>Per questo cerco 5 persone che si fidino di me per le loro prime sedute. Non ti chiedo niente: solo di venire e dirmi sinceramente cosa ne pensi.</p>
+  <p>Grazie di cuore 💕</p>
+  <div class="sign"><b>Giorgia</b> <span><a href="https://www.instagram.com/onicotecnica_giorgia/" target="_blank" rel="noopener">@onicotecnica_giorgia</a></span></div>
+</div>
+
+<div class="faq reveal" id="faq">
+  <h2>FAQ</h2>
+  <details><summary>È davvero gratis?</summary><p>Sì. Le prime 5 sedute sono gratuite, perché sto ancora imparando e mi serve fare pratica.</p></details>
+  <details><summary>Quanti posti ci sono?</summary><p>Solo 5. Quando sono pieni, chiudo le candidature.</p></details>
+  <details><summary>In che zona?</summary><p>Tra il lago di Lecco (fino a Colico), Como e la provincia di Bergamo, fino a Cologno al Serio. Verso sud non oltre Capriate.</p></details>
+  <details><summary>Come prenoto?</summary><p>Compili il modulo in questa pagina. Ti ricontatto io per scegliere insieme giorno e ora.</p></details>
+  <details><summary>Cosa facciamo durante la seduta?</summary><p>Un semipermanente rinforzato. Prima guardiamo insieme le tue unghie, poi scegliamo forma e colore.</p></details>
+  <details><summary>Posso seguire il tuo percorso?</summary><p>Certo! Racconto tutto su Instagram: <a href="https://www.instagram.com/onicotecnica_giorgia/" target="_blank" rel="noopener"><u>@onicotecnica_giorgia</u></a>.</p></details>
+</div>
+
+<div style="padding:0 16px">
+  <div class="final reveal">
+    <small>Solo 5 posti</small>
+    <h2>Prenditi uno dei 5 posti.</h2>
+    <p>Due minuti per candidarti. Al resto penso io.</p>
+    <a class="btn white js-form" href="#">Prenota la tua seduta gratuita →</a>
+  </div>
+</div>
+
+<footer>
+  Giorgia · Onicotecnica · <a href="https://www.instagram.com/onicotecnica_giorgia/" target="_blank" rel="noopener">Instagram</a>
+</footer>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+  // === LINK DEL FORM (Typeform di Giorgia): incollalo qui ===
+  const FORM_URL = "#";
+
+  document.querySelectorAll('.js-form').forEach(a => {
+    a.href = FORM_URL;
+    if (FORM_URL !== '#') { a.target = '_blank'; a.rel = 'noopener'; }
+  });
+
+  // comparsa allo scroll
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // === MAPPA ===
+  // Zona: lago di Lecco da Colico, Como, provincia di Bergamo fino a Cologno al Serio; a sud non oltre Capriate.
+  const zone = [
+    [9.372,46.150],[9.300,46.140],[9.240,46.030],[9.130,45.910],[9.020,45.825],
+    [9.040,45.760],[9.200,45.690],[9.350,45.640],[9.470,45.615],[9.530,45.605],
+    [9.640,45.585],[9.705,45.570],[9.790,45.600],[9.790,45.720],[9.700,45.820],
+    [9.560,45.950],[9.470,46.080],[9.420,46.160],[9.372,46.150]
+  ];
+  const places = [
+    { n: 'Colico', c: [9.372,46.135] },
+    { n: 'Lecco', c: [9.393,45.853], big: true },
+    { n: 'Como', c: [9.085,45.810], big: true },
+    { n: 'Merate', c: [9.418,45.697] },
+    { n: 'Bergamo', c: [9.670,45.698], big: true },
+    { n: 'Capriate', c: [9.530,45.611] },
+    { n: 'Cologno al Serio', c: [9.705,45.578] }
+  ];
+
+  const map = new maplibregl.Map({
+    container: 'map',
+    style: 'https://tiles.openfreemap.org/styles/liberty',
+    bounds: [[9.00,45.52],[9.86,46.20]],
+    fitBoundsOptions: { padding: { top: 60, bottom: 70, left: 20, right: 20 } },
+    attributionControl: { compact: true },
+    cooperativeGestures: true
+  });
+  map.scrollZoom.disable();
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+
+  const fitZone = () => {
+    const small = window.innerWidth < 600;
+    map.fitBounds([[9.00,45.54],[9.82,46.18]], { padding: small ? { top: 40, bottom: 60, left: 6, right: 6 } : { top: 60, bottom: 70, left: 20, right: 20 }, duration: 0 });
+  };
+  let lastW = 0;
+  map.on('resize', () => { const w = map.getContainer().clientWidth; if (w !== lastW) { lastW = w; fitZone(); } });
+
+  map.on('load', () => {
+    lastW = map.getContainer().clientWidth;
+    fitZone();
+    // crediti della mappa chiusi (si aprono con la "i")
+    document.querySelectorAll('.maplibregl-compact-show').forEach(e => e.classList.remove('maplibregl-compact-show'));
+    map.addSource('zona', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'Polygon', coordinates: [zone] } } });
+    map.addLayer({ id: 'zona-fill', type: 'fill', source: 'zona', paint: { 'fill-color': '#f04e0f', 'fill-opacity': 0.12 } });
+    map.addLayer({ id: 'zona-line', type: 'line', source: 'zona', paint: { 'line-color': '#f04e0f', 'line-width': 2.5, 'line-dasharray': [2, 1.5] } });
+  });
+
+  places.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'pin-box';
+    el.innerHTML = `<div class="pin${p.big ? ' big' : ''}"></div><div class="pin-label">${p.n}</div>`;
+    new maplibregl.Marker({ element: el, anchor: 'top' }).setLngLat(p.c).addTo(map);
+  });
+</script>
 </body>
 </html>
