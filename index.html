@@ -12,7 +12,7 @@
 <style>
   :root{
     --bg:#f6f6f6; --card:#ffffff; --ink:#111111; --muted:#6b6b6b; --line:#e9e9e9;
-    --orange:#f04e0f; --orange-soft:#fde4d9;
+    --orange:#7c3aed; --orange-soft:#ede9fe;
     --pink:#e0457b; --pink-soft:#fbe1ea;
     --green:#1f9d55; --green-soft:#dcf3e6;
     --blue:#4a72e8; --blue-soft:#e1e8fc;
@@ -37,12 +37,12 @@
   /* HERO */
   .hero{text-align:center;padding:100px 16px 0}
   .chip{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:500}
-  .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(240,78,15,.5);animation:pulse 1.8s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(240,78,15,.5)}70%{box-shadow:0 0 0 8px rgba(240,78,15,0)}100%{box-shadow:0 0 0 0 rgba(240,78,15,0)}}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(124,58,237,.5);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(124,58,237,.5)}70%{box-shadow:0 0 0 8px rgba(124,58,237,0)}100%{box-shadow:0 0 0 0 rgba(124,58,237,0)}}
   h1{font-size:clamp(40px,7vw,64px);line-height:1.02;letter-spacing:-.045em;font-weight:800;max-width:760px;margin:18px auto 0}
   .lead{color:var(--muted);font-size:16px;max-width:470px;margin:16px auto 0}
   .btn{display:inline-flex;align-items:center;gap:6px;background:var(--orange);color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:999px;margin-top:22px;transition:transform .15s, box-shadow .15s}
-  .btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(240,78,15,.3)}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(124,58,237,.3)}
   .seats{display:flex;justify-content:center;gap:6px;margin-top:16px;align-items:center;font-size:13px;color:var(--muted)}
   .seat{width:22px;height:22px;border-radius:50%;background:var(--orange-soft);border:2px solid #fff;display:grid;place-items:center;font-size:11px;margin-left:-6px}
   .seat:first-child{margin-left:0}
@@ -75,24 +75,24 @@
   }
   .map-tag .live-dot{
     width:7px;height:7px;border-radius:50%;background:var(--orange);
-    box-shadow:0 0 0 0 rgba(240,78,15,.7);animation:pulse 1.8s infinite
+    box-shadow:0 0 0 0 rgba(124,58,237,.7);animation:pulse 1.8s infinite
   }
 
-  /* Punti arancioni stile context-con + popup Tour 3D */
+  /* Punti viola stile context-con + popup Tour 3D */
   .g-pin{display:flex;flex-direction:column;align-items:center;pointer-events:auto;cursor:pointer;position:relative}
   .g-pin .halo{
     position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
     width:38px;height:38px;border-radius:50%;
-    background:radial-gradient(circle, rgba(237,68,7,.38) 0%, rgba(237,68,7,.14) 55%, rgba(237,68,7,0) 75%);
+    background:radial-gradient(circle, rgba(124,58,237,.38) 0%, rgba(124,58,237,.14) 55%, rgba(124,58,237,0) 75%);
     pointer-events:none;transition:transform .35s ease
   }
   .g-pin.big .halo{
     width:56px;height:56px;
-    background:radial-gradient(circle, rgba(237,68,7,.46) 0%, rgba(237,68,7,.18) 55%, rgba(237,68,7,0) 76%);
+    background:radial-gradient(circle, rgba(124,58,237,.46) 0%, rgba(124,58,237,.18) 55%, rgba(124,58,237,0) 76%);
   }
   .g-pin .ring{
     position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-    width:34px;height:34px;border-radius:50%;border:2px solid #ed4407;
+    width:34px;height:34px;border-radius:50%;border:2px solid #7c3aed;
     opacity:0;animation:ringWave 2.2s cubic-bezier(.16,1,.3,1) infinite;pointer-events:none
   }
   .g-pin.big .ring{width:46px;height:46px}
@@ -106,12 +106,12 @@
   .g-pin .dot-wrap{position:relative;display:grid;place-items:center;width:24px;height:24px}
   .g-pin.big .dot-wrap{width:30px;height:30px}
   .g-pin .core{
-    width:14px;height:14px;border-radius:50%;background:#ed4407;
-    border:2.2px solid #fff;box-shadow:0 2px 8px rgba(237,68,7,.42);
+    width:14px;height:14px;border-radius:50%;background:#7c3aed;
+    border:2.2px solid #fff;box-shadow:0 2px 8px rgba(124,58,237,.42);
     transition:transform .25s ease, box-shadow .25s ease
   }
   .g-pin.big .core{width:19px;height:19px;border-width:2.6px}
-  .g-pin.tour-active .core{transform:scale(1.32);box-shadow:0 0 0 6px rgba(237,68,7,.28), 0 4px 14px rgba(237,68,7,.55)}
+  .g-pin.tour-active .core{transform:scale(1.32);box-shadow:0 0 0 6px rgba(124,58,237,.28), 0 4px 14px rgba(124,58,237,.55)}
   .g-pin.tour-active .halo{transform:translate(-50%,-50%) scale(1.35)}
   .g-pin .pin-label, .pin-label{
     font:700 11.5px Inter,sans-serif;color:#111;background:rgba(255,255,255,.96);
@@ -241,7 +241,7 @@
 
   /* CHIUSURA */
   .final{max-width:620px;margin:80px auto 0;border-radius:24px;background:#111;color:#fff;padding:40px 28px;text-align:center;position:relative;overflow:hidden}
-  .final::before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 30% 20%,rgba(240,78,15,.35),transparent 45%),radial-gradient(circle at 80% 90%,rgba(224,69,123,.3),transparent 45%)}
+  .final::before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 30% 20%,rgba(124,58,237,.38),transparent 45%),radial-gradient(circle at 80% 90%,rgba(224,69,123,.3),transparent 45%)}
   .final *{position:relative}
   .final small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#bbb}
   .final h2{color:#fff;margin-top:8px}
@@ -813,21 +813,21 @@
       id: 'zona-glow',
       type: 'line',
       source: 'zona',
-      paint: { 'line-color': '#ed4407', 'line-width': 22, 'line-blur': 16, 'line-opacity': 0.22 }
+      paint: { 'line-color': '#7c3aed', 'line-width': 22, 'line-blur': 16, 'line-opacity': 0.22 }
     });
 
     map.addLayer({
       id: 'zona-fill',
       type: 'fill',
       source: 'zona',
-      paint: { 'fill-color': '#ed4407', 'fill-opacity': 0.13 }
+      paint: { 'fill-color': '#7c3aed', 'fill-opacity': 0.14 }
     });
 
     map.addLayer({
       id: 'zona-line',
       type: 'line',
       source: 'zona',
-      paint: { 'line-color': '#ed4407', 'line-width': 2.2, 'line-dasharray': [2, 1.5], 'line-opacity': 0.85 }
+      paint: { 'line-color': '#7c3aed', 'line-width': 2.2, 'line-dasharray': [2, 1.5], 'line-opacity': 0.85 }
     });
 
     // Dorsale Lierna -> Mandello -> Lecco -> Calolziocorte
@@ -836,7 +836,7 @@
       type: 'line',
       source: 'spine',
       layout: { 'line-cap': 'round', 'line-join': 'round' },
-      paint: { 'line-color': '#ed4407', 'line-width': 12, 'line-blur': 8, 'line-opacity': 0.30 }
+      paint: { 'line-color': '#7c3aed', 'line-width': 12, 'line-blur': 8, 'line-opacity': 0.30 }
     });
 
     map.addLayer({
@@ -844,7 +844,7 @@
       type: 'line',
       source: 'spine',
       layout: { 'line-cap': 'round', 'line-join': 'round' },
-      paint: { 'line-color': '#ed4407', 'line-width': 3, 'line-dasharray': [2, 2], 'line-opacity': 0.85 }
+      paint: { 'line-color': '#7c3aed', 'line-width': 3, 'line-dasharray': [2, 2], 'line-opacity': 0.85 }
     });
 
     // 1. Alone caldo WebGL (resta SEMPRE incollato alla coordinata geografica al 100%)
@@ -854,7 +854,7 @@
       source: 'pts',
       paint: {
         'circle-radius': ['case', ['==', ['get', 'big'], 1], 30, 22],
-        'circle-color': '#ed4407',
+        'circle-color': '#7c3aed',
         'circle-opacity': 0.25,
         'circle-blur': 0.7
       }
@@ -867,22 +867,22 @@
       source: 'pts',
       paint: {
         'circle-radius': 14,
-        'circle-color': '#ed4407',
+        'circle-color': '#7c3aed',
         'circle-opacity': 0.3,
-        'circle-stroke-color': '#ed4407',
+        'circle-stroke-color': '#7c3aed',
         'circle-stroke-width': 2,
         'circle-stroke-opacity': 0.8
       }
     });
 
-    // 3. Pallino arancione con bordo bianco WebGL (nessuno sfasamento con pitch 3D!)
+    // 3. Pallino viola con bordo bianco WebGL (nessuno sfasamento con pitch 3D!)
     map.addLayer({
       id: 'pts-dot',
       type: 'circle',
       source: 'pts',
       paint: {
         'circle-radius': ['case', ['==', ['get', 'big'], 1], 8.5, 6.5],
-        'circle-color': '#ed4407',
+        'circle-color': '#7c3aed',
         'circle-stroke-color': '#ffffff',
         'circle-stroke-width': 2.5
       }
