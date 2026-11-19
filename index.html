@@ -75,6 +75,7 @@
 
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:680px;margin:48px auto 0}
   @media (max-width:700px){.grid{grid-template-columns:1fr}}
+  @media (max-width:720px){.grid,.faq,.letter{margin-left:16px;margin-right:16px}}
   .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;overflow:hidden}
   .ic{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px}
   .kick{font-weight:600;font-size:15px;margin-top:16px}
@@ -87,8 +88,36 @@
   .c-green .kick,.c-green .checks li::before{color:var(--green)} .c-green .ic{background:var(--green-soft)}
   .c-blue .kick,.c-blue .checks li::before{color:var(--blue)} .c-blue .ic{background:var(--blue-soft)}
   .pill{display:inline-block;margin-top:16px;border:1px solid var(--line);border-radius:999px;font-size:12px;font-weight:600;padding:6px 12px}
-  .photo{margin:22px -6px -6px;border-radius:14px;aspect-ratio:4/3;background:linear-gradient(135deg,#f7d9e3,#f3e6dd);transform:rotate(-1.5deg);box-shadow:0 12px 24px -10px rgba(0,0,0,.25);display:grid;place-items:center;font-size:40px;overflow:hidden}
+  .photo{margin:22px -6px -6px;border-radius:14px;aspect-ratio:4/3;background:#eee;transform:rotate(-1.5deg);box-shadow:0 12px 24px -10px rgba(0,0,0,.25);overflow:hidden}
+  .photo.r{transform:rotate(1.5deg)}
   .photo img{width:100%;height:100%;object-fit:cover}
+
+  /* polaroid in apertura */
+  .stack{position:relative;width:200px;height:150px;margin:0 auto 6px}
+  .stack .pola{position:absolute;top:10px;left:50%;padding:6px 6px 22px}
+  .stack .pola img{width:96px;height:112px;object-fit:cover;display:block}
+  .stack .s1{transform:translateX(-112%) rotate(-9deg)}
+  .stack .s2{transform:translateX(-50%) rotate(2deg);z-index:2;top:0}
+  .stack .s3{transform:translateX(12%) rotate(8deg)}
+
+  /* prima / dopo */
+  .ba{position:relative;margin:22px -6px -6px;border-radius:14px;aspect-ratio:4/5;overflow:hidden;box-shadow:0 12px 24px -10px rgba(0,0,0,.25);user-select:none;touch-action:pan-y}
+  .ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+  .ba .after{clip-path:inset(0 0 0 var(--x,50%))}
+  .ba .bar{position:absolute;top:0;bottom:0;left:var(--x,50%);width:2px;background:#fff;transform:translateX(-1px)}
+  .ba .knob{position:absolute;top:50%;left:var(--x,50%);transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.25);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--pink)}
+  .ba .tag{position:absolute;top:10px;font-size:11px;font-weight:700;background:rgba(17,17,17,.75);color:#fff;padding:4px 9px;border-radius:999px}
+  .ba .tag.l{left:10px} .ba .tag.r{right:10px;background:var(--pink)}
+  .ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+
+  /* galleria lavori */
+  .gallery{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:26px 16px 30px;margin-top:22px;scrollbar-width:none}
+  .gallery::-webkit-scrollbar{display:none}
+  .gallery figure{flex:none;width:220px;scroll-snap-align:center;background:#fff;padding:8px 8px 12px;border-radius:6px;box-shadow:0 14px 30px -14px rgba(0,0,0,.35)}
+  .gallery figure:nth-child(odd){transform:rotate(-2deg)} .gallery figure:nth-child(even){transform:rotate(2deg)}
+  .gallery img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:2px}
+  .gallery figcaption{font-size:12px;color:var(--muted);margin-top:8px;text-align:center}
+  @media (min-width:1000px){.gallery{justify-content:safe center}}
   .steps{list-style:none;margin-top:14px;display:grid;gap:10px;counter-reset:s}
   .steps li{display:flex;gap:12px;align-items:center;font-size:13px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
   .steps li::before{counter-increment:s;content:counter(s);width:22px;height:22px;flex:none;border-radius:50%;background:var(--blue-soft);color:var(--blue);font-weight:700;font-size:12px;display:grid;place-items:center}
@@ -108,7 +137,7 @@
   .sign span{color:var(--muted);font-size:12px}
   .polas{position:absolute;right:-30px;top:-34px;width:190px;height:230px}
   .pola{position:absolute;background:#fff;padding:8px 8px 30px;box-shadow:0 14px 30px -12px rgba(0,0,0,.35);border-radius:3px}
-  .pola .ph{width:130px;height:150px;background:linear-gradient(135deg,#f6cfdc,#f0e1d6);display:grid;place-items:center;font-size:34px;overflow:hidden}
+  .pola .ph{width:130px;height:150px;background:#eee;overflow:hidden}
   .pola .ph img{width:100%;height:100%;object-fit:cover}
   .pola.a{right:40px;top:16px;transform:rotate(-8deg)}
   .pola.b{right:0;top:0;transform:rotate(5deg)}
@@ -147,6 +176,7 @@
 
 <nav class="nav">
   <a href="#top" class="logo">giorgia<span>.</span></a>
+  <a class="l" href="#lavori">Lavori</a>
   <a class="l" href="#zona">Zona</a>
   <a class="l" href="#come">Come funziona</a>
   <a class="l" href="#faq">FAQ</a>
@@ -154,6 +184,11 @@
 </nav>
 
 <header class="hero" id="top">
+  <div class="stack" aria-hidden="true">
+    <div class="pola s1"><img src="img/lavoro-1.jpg" alt=""></div>
+    <div class="pola s2"><img src="img/giorgia-2.jpg" alt=""></div>
+    <div class="pola s3"><img src="img/dopo.jpg" alt=""></div>
+  </div>
   <div class="chip"><i class="dot"></i> Solo 5 posti gratuiti · Lecco · Como · Bergamo</div>
   <h1>Le tue unghie possono essere le mie prime&nbsp;5.</h1>
   <p class="lead">Sono Giorgia e sto diventando onicotecnica. Cerco 5 persone per le mie prime sedute: <b>gratis</b>, perché sto ancora imparando.</p>
@@ -192,6 +227,7 @@
       <li>Ci metto tutto il tempo e la cura che servono</li>
     </ul>
     <a class="pill js-form" href="#">Prendi un posto ›</a>
+    <div class="photo r"><img src="img/giorgia-1.jpg" alt="Giorgia durante il suo percorso da onicotecnica" loading="lazy" style="object-position:center 55%"></div>
   </div>
 
   <div class="card c-pink reveal">
@@ -203,7 +239,13 @@
       <li>Scegliamo forma e colore che ti piacciono</li>
       <li>Alla fine mi dici sinceramente com'è andata</li>
     </ul>
-    <div class="photo"><!-- FOTO: lavoro di Giorgia -->💅</div>
+    <div class="ba" style="--x:50%">
+      <img src="img/prima.jpg" alt="Unghie prima del trattamento" loading="lazy">
+      <img class="after" src="img/dopo.jpg" alt="Unghie dopo il semipermanente rinforzato di Giorgia" loading="lazy">
+      <span class="tag l">Prima</span><span class="tag r">Dopo</span>
+      <div class="bar"></div><div class="knob">‹›</div>
+      <input type="range" min="0" max="100" value="50" aria-label="Scorri per confrontare prima e dopo">
+    </div>
   </div>
 
   <div class="card c-green reveal">
@@ -231,6 +273,22 @@
   </div>
 </div>
 
+<section class="center reveal" id="lavori">
+  <h2>Unghia dopo unghia.</h2>
+  <p class="sub">Alcuni lavori del mio percorso. Sono tutti miei: ogni volta un po' meglio della volta prima.</p>
+</section>
+<div class="gallery reveal" aria-label="Lavori di Giorgia">
+  <figure><img src="img/lavoro-1.jpg" alt="Unghie corte rosa malva lucide" loading="lazy"><figcaption>Rosa malva, corte</figcaption></figure>
+  <figure><img src="img/lavoro-2.jpg" alt="Unghie lunghe nude con dettaglio argento" loading="lazy"><figcaption>Nude con dettaglio argento</figcaption></figure>
+  <figure><img src="img/lavoro-3.jpg" alt="Unghie cromate color moka" loading="lazy"><figcaption>Cromato moka</figcaption></figure>
+  <figure><img src="img/costruzione.jpg" alt="Costruzione dell'unghia con la cartina" loading="lazy"><figcaption>Costruzione con cartina</figcaption></figure>
+  <figure><img src="img/lavoro-4.jpg" alt="Unghie rosa malva" loading="lazy"><figcaption>Rosa malva</figcaption></figure>
+  <figure><img src="img/lavoro-5.jpg" alt="Unghie nude a mandorla" loading="lazy"><figcaption>Nude a mandorla</figcaption></figure>
+  <figure><img src="img/dopo.jpg" alt="Semipermanente rinforzato sfumato" loading="lazy"><figcaption>Rinforzato sfumato</figcaption></figure>
+  <figure><img src="img/lavoro-6.jpg" alt="Unghie cromate" loading="lazy"><figcaption>Cromato</figcaption></figure>
+  <figure><img src="img/lavoro-7.jpg" alt="Unghie rosa lucide" loading="lazy"><figcaption>Rosa lucido</figcaption></figure>
+</div>
+
 <section class="center reveal">
   <h2 class="big-quote">Non sono ancora perfetta. Ma ci metto tutto il cuore.</h2>
   <p class="sub">Sto raccontando su Instagram ogni passo del mio percorso, anche i giorni in cui non va tutto liscio. Tu puoi farne parte.</p>
@@ -239,11 +297,11 @@
 
 <div class="letter reveal">
   <div class="polas" aria-hidden="true">
-    <div class="pola a"><div class="ph"><!-- FOTO -->💅</div></div>
-    <div class="pola b"><div class="ph"><!-- FOTO Giorgia -->🫶🏻</div></div>
+    <div class="pola a"><div class="ph"><img src="img/giorgia-3.jpg" alt="" loading="lazy"></div></div>
+    <div class="pola b"><div class="ph"><img src="img/giorgia-4.jpg" alt="" loading="lazy"></div></div>
   </div>
   <div class="who">
-    <div class="avatar"><!-- FOTO profilo -->🫶🏻</div>
+    <div class="avatar"><img src="img/giorgia-profilo.jpg" alt="Giorgia"></div>
     <div><b>Un messaggio da Giorgia</b><span>Onicotecnica agli inizi</span></div>
   </div>
   <p>Ciao, sono Giorgia 🫶🏻</p>
@@ -260,6 +318,7 @@
   <details><summary>In che zona?</summary><p>Tra il lago di Lecco (fino a Colico), Como e la provincia di Bergamo, fino a Cologno al Serio. Verso sud non oltre Capriate.</p></details>
   <details><summary>Come prenoto?</summary><p>Compili il modulo in questa pagina. Ti ricontatto io per scegliere insieme giorno e ora.</p></details>
   <details><summary>Cosa facciamo durante la seduta?</summary><p>Un semipermanente rinforzato. Prima guardiamo insieme le tue unghie, poi scegliamo forma e colore.</p></details>
+  <details><summary>Posso vedere i tuoi lavori?</summary><p>Certo: qui sopra trovi alcuni dei lavori che ho fatto finora, tutti miei. Ogni nuova seduta è un passo avanti.</p></details>
   <details><summary>Posso seguire il tuo percorso?</summary><p>Certo! Racconto tutto su Instagram: <a href="https://www.instagram.com/onicotecnica_giorgia/" target="_blank" rel="noopener"><u>@onicotecnica_giorgia</u></a>.</p></details>
 </div>
 
@@ -284,6 +343,12 @@
   document.querySelectorAll('.js-form').forEach(a => {
     a.href = FORM_URL;
     if (FORM_URL !== '#') { a.target = '_blank'; a.rel = 'noopener'; }
+  });
+
+  // prima / dopo
+  document.querySelectorAll('.ba').forEach(b => {
+    const r = b.querySelector('input');
+    r.addEventListener('input', () => b.style.setProperty('--x', r.value + '%'));
   });
 
   // comparsa allo scroll
