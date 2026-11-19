@@ -64,8 +64,8 @@
 
   /* Sfumatura SOLO in basso */
   .globe-fade{
-    pointer-events:none;position:absolute;left:0;right:0;bottom:0;height:185px;z-index:5;
-    background:linear-gradient(to top, var(--bg) 12%, rgba(246,246,246,.88) 46%, rgba(246,246,246,0) 100%);
+    pointer-events:none;position:absolute;left:0;right:0;bottom:0;height:125px;z-index:5;
+    background:linear-gradient(to top, var(--bg) 10%, rgba(246,246,246,.82) 45%, rgba(246,246,246,0) 100%);
   }
   .map-tag{
     position:absolute;left:50%;transform:translateX(-50%);bottom:24px;
@@ -777,9 +777,9 @@
     const small = window.innerWidth < 600;
     map.fitBounds([[9.275, 45.775], [9.475, 45.978]], {
       padding: small
-        ? { top: 38, bottom: 135, left: 45, right: 45 }
-        : { top: 45, bottom: 165, left: 90, right: 90 },
-      pitch: 34,
+        ? { top: 28, bottom: 165, left: 45, right: 45 }
+        : { top: 32, bottom: 205, left: 90, right: 90 },
+      pitch: 32,
       bearing: -10,
       duration: 0
     });
