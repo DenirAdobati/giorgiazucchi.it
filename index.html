@@ -19,8 +19,8 @@
     --amber:#f29b0c; --amber-soft:#fdf0d6;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;overflow-x:hidden}
-  body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+  html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip}
+  body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;overflow-x:clip}
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
 
@@ -204,13 +204,60 @@
   .ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
 
   /* galleria lavori */
-  .gallery{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:26px 16px 30px;margin-top:22px;scrollbar-width:none}
-  .gallery::-webkit-scrollbar{display:none}
-  .gallery figure{flex:none;width:220px;scroll-snap-align:center;background:#fff;padding:8px 8px 12px;border-radius:6px;box-shadow:0 14px 30px -14px rgba(0,0,0,.35)}
-  .gallery figure:nth-child(odd){transform:rotate(-2deg)} .gallery figure:nth-child(even){transform:rotate(2deg)}
-  .gallery img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:2px}
-  .gallery figcaption{font-size:12px;color:var(--muted);margin-top:8px;text-align:center}
-  @media (min-width:1000px){.gallery{justify-content:safe center}}
+  /* VETRINA LAVORI: 2 file che scorrono, tutte in stile cartella colore */
+  .showcase{margin-top:26px;display:grid;gap:18px;overflow:hidden;padding:24px 0 30px;
+    -webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+  .mq-track{display:flex;width:max-content;animation:mq 80s linear infinite}
+  .mq-r .mq-track{animation-direction:reverse;animation-duration:90s}
+  .mq:hover .mq-track{animation-play-state:paused}
+  .mq-set{display:flex;align-items:center;gap:26px;padding-right:26px}
+  @keyframes mq{to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.mq{overflow-x:auto}.mq-track{animation:none}.mq-set[aria-hidden]{display:none}}
+  .m{flex:none;margin:0;width:200px;background:#fff;padding:8px;border-radius:18px;box-shadow:0 18px 34px -18px rgba(0,0,0,.4);transform:rotate(2deg);transition:transform .25s}
+  .m:nth-child(odd){transform:rotate(-2deg)}
+  .m:hover{transform:translateY(-6px) rotate(0deg)!important}
+  .m img{display:block;width:100%;height:236px;object-fit:cover;border-radius:12px}
+  .sw-row{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:left;padding:11px 6px 5px}
+  .sw-row i{grid-row:span 2;width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+  .sw-row b{font-size:13.5px;line-height:1.15}
+  .sw-row small{font-size:10.5px;color:var(--muted);letter-spacing:.1em}
+  @media (max-width:700px){.showcase{gap:10px}.mq-set{gap:18px;padding-right:18px}.m{width:158px}.m img{height:184px}.sw-row b{font-size:12px}.sw-row i{width:24px;height:24px}}
+
+  /* GIOCO DEI COLORI */
+  .play{max-width:980px;margin:30px auto 0;background:#fff;border:1px solid var(--line);border-radius:28px;padding:22px;display:grid;grid-template-columns:1fr 1.05fr;gap:26px}
+  @media (max-width:1012px){.play{margin-left:16px;margin-right:16px}}
+  @media (max-width:760px){.play{grid-template-columns:1fr;padding:14px;gap:16px}}
+  .play-stage{position:relative;background:radial-gradient(120% 90% at 50% 0%,#f3eefc 0%,#f7f5f2 60%);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;min-height:420px;padding:64px 16px 24px}
+  @media (min-width:761px){.play-stage{position:sticky;top:90px;align-self:start}}
+  @media (max-width:760px){.play-stage{position:sticky;top:62px;z-index:3;min-height:240px;padding:52px 12px 14px;box-shadow:0 10px 24px -14px rgba(0,0,0,.35)}#hand{max-height:210px;margin-top:0}.play-name{top:10px;left:10px}.play-spec{bottom:10px;right:10px}}
+  #hand{width:100%;max-width:340px;max-height:340px;display:block;margin:0 auto}
+  #hand path{transition:fill .3s, d .3s}
+  .play-name{position:absolute;left:14px;top:14px;display:flex;gap:10px;align-items:center;background:#fff;border-radius:999px;padding:6px 16px 6px 6px;box-shadow:0 8px 20px -10px rgba(0,0,0,.3);text-align:left;z-index:2}
+  .play-name i{width:34px;height:34px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);transition:background .35s}
+  .play-name b{display:block;font-size:14px;line-height:1.1}
+  .play-name small{font-size:11px;color:var(--muted)}
+  .play-spec{position:absolute;right:14px;bottom:14px;background:rgba(255,255,255,.92);border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:6px 11px;font-size:11px;color:var(--muted);text-align:right;box-shadow:0 6px 16px -8px rgba(0,0,0,.18);backdrop-filter:blur(6px);line-height:1.35}
+  .play-spec b{color:var(--ink);display:block;font-size:11.5px}
+  .play-ctrl{text-align:left;display:grid;gap:16px;align-content:start}
+  .opt>span{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .opt em{font-style:normal;font-weight:500;text-transform:none;letter-spacing:0}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chips button{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .15s}
+  .chips button:hover{border-color:#cfc6e8}
+  .chips button.on{background:#111;color:#fff;border-color:#111}
+  .chips button i{width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+  .pgroup{margin-bottom:10px}
+  .pgroup small{display:block;font-size:11.5px;color:var(--muted);margin-bottom:5px}
+  .pdots{display:flex;flex-wrap:wrap;gap:7px}
+  .pdots button{width:30px;height:30px;border-radius:50%;border:0;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1);transition:transform .15s, box-shadow .15s;position:relative}
+  .pdots button:hover{transform:scale(1.15)}
+  .pdots button.on{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--orange);transform:scale(1.1)}
+  .play-btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .play-btns .btn{margin-top:0}
+  .pill-btn{font:inherit;font-size:15px;font-weight:600;border:1px solid var(--line);background:#fff;border-radius:999px;padding:12px 18px;cursor:pointer}
+  .pill-btn:hover{border-color:#cfc6e8}
+  @keyframes pop{50%{transform:scale(1.04)}}
+  .play-stage.pop #hand{animation:pop .35s}
   .steps{list-style:none;margin-top:14px;display:grid;gap:10px;counter-reset:s}
   .steps li{display:flex;gap:12px;align-items:center;font-size:13px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
   .steps li::before{counter-increment:s;content:counter(s);width:22px;height:22px;flex:none;border-radius:50%;background:var(--blue-soft);color:var(--blue);font-weight:700;font-size:12px;display:grid;place-items:center}
@@ -395,16 +442,76 @@
   <h2>Unghia dopo unghia.</h2>
   <p class="sub">Alcuni lavori del mio percorso. Sono tutti miei: ogni volta un po' meglio della volta prima.</p>
 </section>
-<div class="gallery reveal" aria-label="Lavori di Giorgia">
-  <figure><img src="img/lavoro-1.jpg" alt="Unghie corte rosa malva lucide" loading="lazy"><figcaption>Rosa malva, corte</figcaption></figure>
-  <figure><img src="img/lavoro-2.jpg" alt="Unghie lunghe nude con dettaglio argento" loading="lazy"><figcaption>Nude con dettaglio argento</figcaption></figure>
-  <figure><img src="img/lavoro-3.jpg" alt="Unghie cromate color moka" loading="lazy"><figcaption>Cromato moka</figcaption></figure>
-  <figure><img src="img/costruzione.jpg" alt="Costruzione dell'unghia con la cartina" loading="lazy"><figcaption>Costruzione con cartina</figcaption></figure>
-  <figure><img src="img/lavoro-4.jpg" alt="Unghie rosa malva" loading="lazy"><figcaption>Rosa malva</figcaption></figure>
-  <figure><img src="img/lavoro-5.jpg" alt="Unghie nude a mandorla" loading="lazy"><figcaption>Nude a mandorla</figcaption></figure>
-  <figure><img src="img/dopo.jpg" alt="Semipermanente rinforzato sfumato" loading="lazy"><figcaption>Rinforzato sfumato</figcaption></figure>
-  <figure><img src="img/lavoro-6.jpg" alt="Unghie cromate" loading="lazy"><figcaption>Cromato</figcaption></figure>
-  <figure><img src="img/lavoro-7.jpg" alt="Unghie rosa lucide" loading="lazy"><figcaption>Rosa lucido</figcaption></figure>
+<div class="showcase reveal" aria-label="Lavori di Giorgia">
+  <div class="mq mq-l"><div class="mq-track"><div class="mq-set"><figure class="m"><img src="img/u-58.jpg" alt="Unghie bordeaux fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#4a0f22"></i><b>Bordeaux</b><small>GZ 01</small></div></figure><figure class="m"><img src="img/u-02.jpg" alt="Unghie baby boomer fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#f3d9d3"></i><b>Baby boomer</b><small>GZ 02</small></div></figure><figure class="m"><img src="img/u-40.jpg" alt="Unghie taupe e glitter fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#7c6255"></i><b>Taupe e glitter</b><small>GZ 03</small></div></figure><figure class="m"><img src="img/u-53.jpg" alt="Unghie rosa con decoro fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#f3d1d4"></i><b>Rosa con decoro</b><small>GZ 04</small></div></figure><figure class="m"><img src="img/u-57.jpg" alt="Unghie opale di sera fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#8b7bb8"></i><b>Opale di sera</b><small>GZ 05</small></div></figure><figure class="m"><img src="img/u-03.jpg" alt="Unghie nude caramello fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#b98a7a"></i><b>Nude caramello</b><small>GZ 06</small></div></figure><figure class="m"><img src="img/lavoro-1.jpg" alt="Unghie rosa malva fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#b07a8a"></i><b>Rosa malva</b><small>GZ 07</small></div></figure><figure class="m"><img src="img/u-36.jpg" alt="Unghie baby boomer fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#f5d6d6"></i><b>Baby boomer</b><small>GZ 08</small></div></figure><figure class="m"><img src="img/u-26.jpg" alt="Unghie cioccolato fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#4a3029"></i><b>Cioccolato</b><small>GZ 09</small></div></figure><figure class="m"><img src="img/u-44.jpg" alt="Unghie rosa e marmo fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#f1c6cf"></i><b>Rosa e marmo</b><small>GZ 10</small></div></figure><figure class="m"><img src="img/u-56.jpg" alt="Unghie foglia oro opale fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#d9cfe8"></i><b>Foglia oro opale</b><small>GZ 11</small></div></figure><figure class="m"><img src="img/lavoro-3.jpg" alt="Unghie cromato moka fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#7a5a4a"></i><b>Cromato moka</b><small>GZ 12</small></div></figure><figure class="m"><img src="img/u-50.jpg" alt="Unghie sfumato pesca fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#f0c3b4"></i><b>Sfumato pesca</b><small>GZ 13</small></div></figure><figure class="m"><img src="img/u-24.jpg" alt="Unghie nude rosato fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#c89a8c"></i><b>Nude rosato</b><small>GZ 14</small></div></figure><figure class="m"><img src="img/lavoro-7.jpg" alt="Unghie rosa lucido fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#e6a9b5"></i><b>Rosa lucido</b><small>GZ 15</small></div></figure></div><div class="mq-set" aria-hidden="true"><figure class="m"><img src="img/u-58.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#4a0f22"></i><b>Bordeaux</b><small>GZ 01</small></div></figure><figure class="m"><img src="img/u-02.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#f3d9d3"></i><b>Baby boomer</b><small>GZ 02</small></div></figure><figure class="m"><img src="img/u-40.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#7c6255"></i><b>Taupe e glitter</b><small>GZ 03</small></div></figure><figure class="m"><img src="img/u-53.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#f3d1d4"></i><b>Rosa con decoro</b><small>GZ 04</small></div></figure><figure class="m"><img src="img/u-57.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#8b7bb8"></i><b>Opale di sera</b><small>GZ 05</small></div></figure><figure class="m"><img src="img/u-03.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#b98a7a"></i><b>Nude caramello</b><small>GZ 06</small></div></figure><figure class="m"><img src="img/lavoro-1.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#b07a8a"></i><b>Rosa malva</b><small>GZ 07</small></div></figure><figure class="m"><img src="img/u-36.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#f5d6d6"></i><b>Baby boomer</b><small>GZ 08</small></div></figure><figure class="m"><img src="img/u-26.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#4a3029"></i><b>Cioccolato</b><small>GZ 09</small></div></figure><figure class="m"><img src="img/u-44.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#f1c6cf"></i><b>Rosa e marmo</b><small>GZ 10</small></div></figure><figure class="m"><img src="img/u-56.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#d9cfe8"></i><b>Foglia oro opale</b><small>GZ 11</small></div></figure><figure class="m"><img src="img/lavoro-3.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#7a5a4a"></i><b>Cromato moka</b><small>GZ 12</small></div></figure><figure class="m"><img src="img/u-50.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#f0c3b4"></i><b>Sfumato pesca</b><small>GZ 13</small></div></figure><figure class="m"><img src="img/u-24.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#c89a8c"></i><b>Nude rosato</b><small>GZ 14</small></div></figure><figure class="m"><img src="img/lavoro-7.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#e6a9b5"></i><b>Rosa lucido</b><small>GZ 15</small></div></figure></div></div></div>
+  <div class="mq mq-r"><div class="mq-track"><div class="mq-set"><figure class="m"><img src="img/u-04.jpg" alt="Unghie cappuccino fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#6b4a3c"></i><b>Cappuccino</b><small>GZ 16</small></div></figure><figure class="m"><img src="img/u-11.jpg" alt="Unghie rosa con fiocco fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#f2c9c4"></i><b>Rosa con fiocco</b><small>GZ 17</small></div></figure><figure class="m"><img src="img/lavoro-2.jpg" alt="Unghie nude con argento fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#e5c8b8"></i><b>Nude con argento</b><small>GZ 18</small></div></figure><figure class="m"><img src="img/u-35.jpg" alt="Unghie champagne fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#c9a58c"></i><b>Champagne</b><small>GZ 19</small></div></figure><figure class="m"><img src="img/u-47.jpg" alt="Unghie rosa cipria fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#e9b9bf"></i><b>Rosa cipria</b><small>GZ 20</small></div></figure><figure class="m"><img src="img/u-20.jpg" alt="Unghie moka lucido fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#8a6656"></i><b>Moka lucido</b><small>GZ 21</small></div></figure><figure class="m"><img src="img/u-39.jpg" alt="Unghie sfumato rosa fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#f2d4d4"></i><b>Sfumato rosa</b><small>GZ 22</small></div></figure><figure class="m"><img src="img/lavoro-5.jpg" alt="Unghie nude a mandorla fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#e0bba8"></i><b>Nude a mandorla</b><small>GZ 23</small></div></figure><figure class="m"><img src="img/u-41.jpg" alt="Unghie bronzo cromato fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#6e5346"></i><b>Bronzo cromato</b><small>GZ 24</small></div></figure><figure class="m"><img src="img/u-12.jpg" alt="Unghie french classico fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#f1e2d6"></i><b>French classico</b><small>GZ 25</small></div></figure><figure class="m"><img src="img/dopo.jpg" alt="Unghie rinforzato sfumato fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#edd0c4"></i><b>Rinforzato sfumato</b><small>GZ 26</small></div></figure><figure class="m"><img src="img/u-33.jpg" alt="Unghie nude naturale fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#e8c2b0"></i><b>Nude naturale</b><small>GZ 27</small></div></figure><figure class="m"><img src="img/u-06.jpg" alt="Unghie french soft fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#efd8cc"></i><b>French soft</b><small>GZ 28</small></div></figure><figure class="m"><img src="img/lavoro-6.jpg" alt="Unghie cromato fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#9a8a88"></i><b>Cromato</b><small>GZ 29</small></div></figure><figure class="m"><img src="img/lavoro-4.jpg" alt="Unghie rosa malva fatte da Giorgia" decoding="async"><div class="sw-row"><i style="background:#b8808f"></i><b>Rosa malva</b><small>GZ 30</small></div></figure></div><div class="mq-set" aria-hidden="true"><figure class="m"><img src="img/u-04.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#6b4a3c"></i><b>Cappuccino</b><small>GZ 16</small></div></figure><figure class="m"><img src="img/u-11.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#f2c9c4"></i><b>Rosa con fiocco</b><small>GZ 17</small></div></figure><figure class="m"><img src="img/lavoro-2.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#e5c8b8"></i><b>Nude con argento</b><small>GZ 18</small></div></figure><figure class="m"><img src="img/u-35.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#c9a58c"></i><b>Champagne</b><small>GZ 19</small></div></figure><figure class="m"><img src="img/u-47.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#e9b9bf"></i><b>Rosa cipria</b><small>GZ 20</small></div></figure><figure class="m"><img src="img/u-20.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#8a6656"></i><b>Moka lucido</b><small>GZ 21</small></div></figure><figure class="m"><img src="img/u-39.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#f2d4d4"></i><b>Sfumato rosa</b><small>GZ 22</small></div></figure><figure class="m"><img src="img/lavoro-5.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#e0bba8"></i><b>Nude a mandorla</b><small>GZ 23</small></div></figure><figure class="m"><img src="img/u-41.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#6e5346"></i><b>Bronzo cromato</b><small>GZ 24</small></div></figure><figure class="m"><img src="img/u-12.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#f1e2d6"></i><b>French classico</b><small>GZ 25</small></div></figure><figure class="m"><img src="img/dopo.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#edd0c4"></i><b>Rinforzato sfumato</b><small>GZ 26</small></div></figure><figure class="m"><img src="img/u-33.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#e8c2b0"></i><b>Nude naturale</b><small>GZ 27</small></div></figure><figure class="m"><img src="img/u-06.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#efd8cc"></i><b>French soft</b><small>GZ 28</small></div></figure><figure class="m"><img src="img/lavoro-6.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#9a8a88"></i><b>Cromato</b><small>GZ 29</small></div></figure><figure class="m"><img src="img/lavoro-4.jpg" alt="" decoding="async"><div class="sw-row"><i style="background:#b8808f"></i><b>Rosa malva</b><small>GZ 30</small></div></figure></div></div></div>
+</div>
+
+<section class="center reveal" id="colori">
+  <h2>Gioca con i colori.</h2>
+  <p class="sub">Scegli forma, finitura e colore: guarda come starebbe sulle tue mani. Poi portalo alla tua seduta.</p>
+</section>
+<div class="play reveal">
+  <div class="play-stage">
+    <svg id="hand" viewBox="0 0 360 390" role="img" aria-label="Anteprima in grande della forma dell'unghia con il colore scelto">
+      <defs>
+        <pattern id="glit" width="38" height="38" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="6" r="1.9" fill="#fff" opacity=".92"/>
+          <circle cx="17" cy="4" r="1.05" fill="#ffe79b" opacity=".85"/>
+          <circle cx="29" cy="9" r="1.5" fill="#fff" opacity=".75"/>
+          <circle cx="34" cy="17" r=".95" fill="#fff" opacity=".88"/>
+          <circle cx="11" cy="19" r="1.35" fill="#ffd86b" opacity=".88"/>
+          <circle cx="23" cy="21" r="2.1" fill="#fff" opacity=".95"/>
+          <circle cx="4" cy="29" r="1.15" fill="#fff" opacity=".7"/>
+          <circle cx="15" cy="33" r="1.6" fill="#ffe79b" opacity=".82"/>
+          <circle cx="31" cy="31" r="1.3" fill="#fff" opacity=".88"/>
+          <circle cx="22" cy="35.5" r=".9" fill="#ffd86b" opacity=".78"/>
+        </pattern>
+        <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".86"/>
+          <stop offset=".26" stop-color="#fff" stop-opacity=".06"/>
+          <stop offset=".52" stop-color="#fff" stop-opacity=".62"/>
+          <stop offset=".78" stop-color="#000" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#fff" stop-opacity=".32"/>
+        </linearGradient>
+        <linearGradient id="nailDome" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#000" stop-opacity=".32"/>
+          <stop offset=".13" stop-color="#000" stop-opacity=".06"/>
+          <stop offset=".36" stop-color="#fff" stop-opacity=".22"/>
+          <stop offset=".68" stop-color="#fff" stop-opacity=".05"/>
+          <stop offset=".87" stop-color="#000" stop-opacity=".07"/>
+          <stop offset="1" stop-color="#000" stop-opacity=".36"/>
+        </linearGradient>
+        <linearGradient id="apexShade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".16"/>
+          <stop offset=".38" stop-color="#fff" stop-opacity=".07"/>
+          <stop offset=".78" stop-color="#000" stop-opacity=".04"/>
+          <stop offset="1" stop-color="#000" stop-opacity=".22"/>
+        </linearGradient>
+        <linearGradient id="glossMain" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".88"/>
+          <stop offset=".55" stop-color="#fff" stop-opacity=".42"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="nailDrop" x="-25%" y="-20%" width="150%" height="150%">
+          <feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#1e0d14" flood-opacity=".26"/>
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#1e0d14" flood-opacity=".14"/>
+        </filter>
+      </defs>
+      <g id="fingers"></g>
+    </svg>
+    <div class="play-name"><i id="pnDot"></i><div><b id="pnName">Bordeaux</b><small id="pnInfo">Mandorla · Lucido</small></div></div>
+    <div class="play-spec"><b id="pnShapeTitle">Forma Mandorla</b><span id="pnShapeDesc">Laterali convergenti · Apice morbido</span></div>
+  </div>
+  <div class="play-ctrl">
+    <div class="opt"><span>Forma</span><div class="chips" id="shape"></div></div>
+    <div class="opt"><span>Finitura</span><div class="chips" id="finish"></div></div>
+    <div class="opt"><span>Colore <em id="count"></em></span><div id="palette"></div></div>
+    <div class="play-btns">
+      <button type="button" class="pill-btn" id="rnd">🎲 Sorprendimi</button>
+      <a class="btn js-form" href="#">Mi piace questo! Prenota →</a>
+    </div>
+  </div>
 </div>
 
 <section class="center reveal">
@@ -594,6 +701,354 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') skip();
     });
+  })();
+
+  // === GIOCO DEI COLORI ===
+  (() => {
+    const PAL = [
+      ['Nude e beige', [['Latte','#f4e6da'],['Sabbia','#e6cdb5'],['Nude rosato','#dcb3a3'],['Biscotto','#d2a98a'],['Champagne','#d9bf9f'],['Caramello','#b98257'],['Cappuccino','#a07862'],['Taupe','#8c7466']]],
+      ['Rosa', [['Rosa cipria','#f2c4c8'],['Confetto','#f7d3dc'],['Rosa antico','#d49aa0'],['Malva','#b9808d'],['Rosa Barbie','#ee5fa0'],['Fucsia','#d6247a'],['Peonia','#e9809c'],['Rosa nebbia','#cfa9b4']]],
+      ['Pesca e corallo', [['Albicocca','#f6b993'],['Pesca','#f8c7b0'],['Corallo','#f26f5e'],['Salmone','#f28b7a'],['Mandarino','#f7883b'],['Papaya','#ff9e6d']]],
+      ['Rossi', [['Rosso fuoco','#d4141c'],['Rosso ciliegia','#b0102a'],['Rosso classico','#c21f30'],['Lampone','#c3245b'],['Rosso mattone','#a2402e'],['Rosso vino','#7b1428']]],
+      ['Bordeaux e prugna', [['Bordeaux','#4a0f22'],['Vinaccia','#6a1530'],['Prugna','#5b2346'],['Melanzana','#3d1f3a'],['Mora','#3a1528'],['Marsala','#8a3b45']]],
+      ['Marroni', [['Moka','#7a5546'],['Cioccolato','#4a3029'],['Castagna','#6b3d2b'],['Cannella','#9b5a3c'],['Espresso','#2f1f1a'],['Nocciola','#8f6a4e']]],
+      ['Viola e lilla', [['Lilla','#c9b6e4'],['Lavanda','#b4a1d9'],['Glicine','#a189c9'],['Viola Giorgia','#7c3aed'],['Ametista','#6a3d9a'],['Viola notte','#3b2160']]],
+      ['Blu e azzurri', [['Azzurro cielo','#a8d0f0'],['Baby blue','#c5e0f5'],['Denim','#4a6fa5'],['Blu cobalto','#1f4fbf'],['Blu notte','#1b2a4a'],['Petrolio','#1f5c6b']]],
+      ['Verdi', [['Menta','#bfe6d2'],['Salvia','#a8b89a'],['Pistacchio','#c6d79a'],['Oliva','#6f7a43'],['Smeraldo','#1d7a55'],['Verde bosco','#1f3d2e']]],
+      ['Gialli e solari', [['Burro','#f8e6a0'],['Limone','#f6dd4c'],['Senape','#d4a72c'],['Oro','#c9a227']]],
+      ['Neutri', [['Bianco latte','#f7f4ef'],['Bianco ottico','#ffffff'],['Grigio perla','#cfcdcb'],['Grigio fumo','#8a8784'],['Antracite','#3b3b3d'],['Nero','#111111']]]
+    ];
+    const SHAPES = ['Squadrata','Ovale','Mandorla','Ballerina'];
+    // Parametri tecnici reali onicotecnici per ciascuna delle 4 forme da salone:
+    // cx = 180 (asse di simmetria centrale), hw = 54 (larghezza totale = 108px),
+    // B = 342 (giro-cuticola semicircolare anatomico di raggio 54px con innesto tangente C1 a cutSideY = 288)
+    // TUTTE le forme mantengono i parametri laterali (pareti dritte e parallele lungo il letto ungueale fino a y=178)
+    const SHAPE_SPECS = [
+      {
+        name: 'Squadrata',
+        desc: 'Laterali dritti paralleli · Punta dritta e angoli definiti',
+        T: 86,
+        smileSideY: 162, smileCenterY: 118
+      },
+      {
+        name: 'Ovale',
+        desc: 'Forma corta naturale · Laterali paralleli e punta arrotondata morbida',
+        T: 112, // Abbastanza corta (~230px totali, bordo libero corto e arrotondato)
+        smileSideY: 192, smileCenterY: 144
+      },
+      {
+        name: 'Mandorla',
+        desc: 'Ovale allungato · Laterali mantenuti e punta morbida non a punta',
+        T: 52,  // Quando si va sulla lunghezza l'ovale diventa mandorla (~290px totali), punta morbida non appuntita
+        smileSideY: 176, smileCenterY: 112
+      },
+      {
+        name: 'Ballerina',
+        desc: 'Squadrata con laterali leggermente smussati verso l’interno · Punta dritta',
+        T: 56,
+        smileSideY: 170, smileCenterY: 108
+      }
+    ];
+    const FIN = ['Lucido','Glitter','Cromato','French'];
+    // french è attivabile insieme a Lucido, Glitter o Cromato (così puoi fare French + Glitter o French + Cromato)
+    const st = { shape: 2, eff: 0, french: false, col: ['Bordeaux','#4a0f22'] };
+    const NS = 'http://www.w3.org/2000/svg';
+    const g = document.getElementById('fingers'); if (!g) return;
+    const mk = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+    // Geometria tecnica onicotecnica: tutte le forme rispettano e mantengono i parametri laterali del letto ungueale
+    function nailPath(shapeIdx) {
+      const cx = 180, hw = 54, L = cx - hw, R = cx + hw;
+      const B = 342;          // Fondo del giro-cuticola
+      const cutSideY = 288;   // Punto di tangenza verticale del giro-cuticola semicircolare (B - hw = 288)
+      const T = SHAPE_SPECS[shapeIdx].T;
+
+      // Giro-cuticola anatomico semicircolare esatto (approssimazione Bézier cubica di cerchio r=54: k = 0.55228 * 54 ≈ 29.8)
+      const k = 29.8;
+      const baseCuticle = [
+        `M ${L},${cutSideY}`,
+        `C ${L},${cutSideY + k} ${cx - k},${B} ${cx},${B}`,
+        `C ${cx + k},${B} ${R},${cutSideY + k} ${R},${cutSideY}`
+      ].join(' ');
+
+      if (shapeIdx === 0) {
+        // 1. SQUADRATA: pareti laterali dritte e parallele a 90° per tutta la lunghezza, punta dritta orizzontale
+        const r = 6;
+        return [
+          baseCuticle,
+          `L ${R},${T + r}`,
+          `Q ${R},${T} ${R - r},${T}`,
+          `L ${L + r},${T}`,
+          `Q ${L},${T} ${L},${T + r}`,
+          `Z`
+        ].join(' ');
+      }
+
+      if (shapeIdx === 1) {
+        // 2. OVALE: forma che rimane abbastanza corta (T=112). Mantiene i parametri laterali dritti e paralleli fino a y=172 e chiude con un arco ovale morbido e pieno
+        const ySide = 172;
+        const c1y = 136; // tangente verticale sui laterali R e L
+        const c2x = 34;  // arco tondo morbido in punta
+        return [
+          baseCuticle,
+          `L ${R},${ySide}`,
+          `C ${R},${c1y} ${cx + c2x},${T} ${cx},${T}`,
+          `C ${cx - c2x},${T} ${L},${c1y} ${L},${ySide}`,
+          `Z`
+        ].join(' ');
+      }
+
+      if (shapeIdx === 2) {
+        // 3. MANDORLA: è l'ovale portato sulla lunghezza (T=52), NON a punta! Mantiene tutti i parametri laterali dritti e paralleli lungo il letto ungueale (fino a y=178) e poi chiude in un arco semi-ellittico morbido e rotondo in cima (c2x=27)
+        const ySide = 178;
+        const c1y = 98;  // mantiene la pienezza laterale senza stringere a triangolo/stiletto
+        const c2x = 27;  // punta morbida e rotonda (da vero ovale allungato, mai a punta!)
+        return [
+          baseCuticle,
+          `L ${R},${ySide}`,
+          `C ${R},${c1y} ${cx + c2x},${T} ${cx},${T}`,
+          `C ${cx - c2x},${T} ${L},${c1y} ${L},${ySide}`,
+          `Z`
+        ].join(' ');
+      }
+
+      // 4. BALLERINA: è una squadrata con i laterali solo un pochino smussati verso l'interno (non che si stringe a punta!).
+      // Mantiene i parametri laterali dritti e paralleli lungo tutto il letto ungueale (fino a y=178) e poi rientra solo leggermente (di 13px per lato: da hw=54 a topHW=41, mantenendo il 76% della larghezza!) con punta dritta squadrata
+      const ySide = 178;
+      const topHW = 41, cR = 5;
+      return [
+        baseCuticle,
+        `L ${R},${ySide}`,
+        `C ${R},142 ${cx + topHW + 5},94 ${cx + topHW + 0.8},${T + cR}`,
+        `Q ${cx + topHW},${T} ${cx + topHW - cR},${T}`,
+        `L ${cx - topHW + cR},${T}`,
+        `Q ${cx - topHW},${T} ${cx - topHW - 0.8},${T + cR}`,
+        `C ${cx - topHW - 5},94 ${L},142 ${L},${ySide}`,
+        `Z`
+      ].join(' ');
+    }
+
+    // Lunula proporzionata alla base del letto ungueale (r=54)
+    function lunulaPath() {
+      const cx = 180, lhw = 36, B = 342;
+      return `M ${cx - lhw},${B - 12} C ${cx - lhw * 0.55},${B - 38} ${cx + lhw * 0.55},${B - 38} ${cx + lhw},${B - 12} C ${cx + lhw * 0.62},${B + 1} ${cx - lhw * 0.62},${B + 1} ${cx - lhw},${B - 12} Z`;
+    }
+
+    // French manicure a mezzaluna corretta: il letto ungueale rosa sale a cupola verso il centro (smileCenterY)
+    // e la lunetta French scende lungo i due baffi laterali verso i punti zero (smileSideY)
+    function frenchTipPath(shapeIdx) {
+      const cx = 180, hw = 60, L = cx - hw, R = cx + hw;
+      const spec = SHAPE_SPECS[shapeIdx];
+      const T = spec.T - 8;
+      const sideY = spec.smileSideY;     // baffi laterali che scendono verso i punti zero
+      const centerY = spec.smileCenterY; // sommità dell'arco della mezzaluna al centro
+      return [
+        `M ${L},${T}`,
+        `L ${R},${T}`,
+        `L ${R},${sideY}`,
+        `C ${R - 14},${centerY + 14} ${cx + 28},${centerY} ${cx},${centerY}`,
+        `C ${cx - 28},${centerY} ${L + 14},${centerY + 14} ${L},${sideY}`,
+        `Z`
+      ].join(' ');
+    }
+
+    function finishLabel() {
+      const effName = FIN[st.eff];
+      if (!st.french) return effName;
+      return st.eff === 0 ? 'French' : `French · ${effName}`;
+    }
+
+    function draw() {
+      g.innerHTML = '';
+      const col = st.col[1], effName = FIN[st.eff];
+      const spec = SHAPE_SPECS[st.shape];
+      const d = nailPath(st.shape);
+      const cx = 180, B = 342, T = spec.T;
+
+      // ClipPath esatto sulla forma tecnica dell'unghia
+      const cp = mk('clipPath', { id: 'singleNailClip' });
+      cp.appendChild(mk('path', { d }));
+      g.appendChild(cp);
+
+      // Gruppo principale dell'unghia con doppia ombra morbida da esposizione
+      const nailGroup = mk('g', { filter: 'url(#nailDrop)' });
+
+      // 1. Colore pieno oppure base nude-rosata camouflaging quando è attiva la French
+      const baseFill = st.french ? '#f2ced2' : col;
+      nailGroup.appendChild(mk('path', { d, fill: baseFill }));
+
+      // 2. Lunula delicata alla base
+      nailGroup.appendChild(mk('path', {
+        d: lunulaPath(),
+        fill: '#ffffff',
+        opacity: st.french ? '.34' : '.10',
+        'clip-path': 'url(#singleNailClip)'
+      }));
+
+      // 3. Punta French a mezzaluna (con possibilità di avere Glitter o Cromato direttamente sulla lunetta French!)
+      const fPath = st.french ? frenchTipPath(st.shape) : d;
+      if (st.french) {
+        nailGroup.appendChild(mk('path', {
+          d: fPath,
+          fill: col,
+          'clip-path': 'url(#singleNailClip)'
+        }));
+      }
+
+      // 4. Effetto Glitter organico (sull'intera unghia o sulla lunetta French se French + Glitter sono entrambi attivi)
+      if (effName === 'Glitter') {
+        nailGroup.appendChild(mk('path', {
+          d: fPath,
+          fill: 'url(#glit)',
+          'clip-path': 'url(#singleNailClip)'
+        }));
+      }
+
+      // 5. Effetto Cromato a specchio (sull'intera unghia o sulla lunetta French se French + Cromato sono entrambi attivi)
+      if (effName === 'Cromato') {
+        nailGroup.appendChild(mk('path', {
+          d: fPath,
+          fill: 'url(#chrome)',
+          'clip-path': 'url(#singleNailClip)'
+        }));
+      }
+
+      // 6. Bombatura 3D trasversale (Curva C) e longitudinale (Apex)
+      nailGroup.appendChild(mk('path', { d, fill: 'url(#nailDome)', 'clip-path': 'url(#singleNailClip)' }));
+      nailGroup.appendChild(mk('path', { d, fill: 'url(#apexShade)', 'clip-path': 'url(#singleNailClip)' }));
+
+      // 7. Riflesso speculare longitudinale che segue armoniosamente il profilo della forma selezionata
+      const topOffset = 20;
+      const botY = B - 34;
+      const startX = st.shape === 1 ? cx - 22 : (st.shape === 2 ? cx - 19 : (st.shape === 3 ? cx - 25 : cx - 30));
+      const midX = cx - 31;
+      const endX = cx - 28;
+
+      // Fascio di luce principale da lampada
+      nailGroup.appendChild(mk('path', {
+        d: `M ${startX},${T + topOffset} C ${midX},${T + (botY - T) * 0.35} ${midX},${T + (botY - T) * 0.68} ${endX},${botY - 18}`,
+        stroke: 'url(#glossMain)',
+        'stroke-width': '11',
+        'stroke-linecap': 'round',
+        fill: 'none',
+        opacity: effName === 'Cromato' ? '.88' : '.68',
+        'clip-path': 'url(#singleNailClip)'
+      }));
+      // Punto luce inferiore
+      nailGroup.appendChild(mk('circle', {
+        cx: endX + 1.2,
+        cy: botY - 3,
+        r: '4.2',
+        fill: '#ffffff',
+        opacity: '.48',
+        'clip-path': 'url(#singleNailClip)'
+      }));
+      // Riflesso secondario di controluce sul bordo destro
+      const rStartX = st.shape === 1 ? cx + 22 : (st.shape === 2 ? cx + 19 : (st.shape === 3 ? cx + 26 : cx + 31));
+      const rMidX = cx + 35;
+      nailGroup.appendChild(mk('path', {
+        d: `M ${rStartX},${T + topOffset + 10} C ${rMidX},${T + (botY - T) * 0.42} ${rMidX},${T + (botY - T) * 0.72} ${cx + 29},${botY - 24}`,
+        stroke: '#ffffff',
+        'stroke-width': '2.8',
+        'stroke-linecap': 'round',
+        fill: 'none',
+        opacity: '.26',
+        'clip-path': 'url(#singleNailClip)'
+      }));
+
+      // 8. Bordo perimetrale di spessore cristallino (sigillatura top coat)
+      nailGroup.appendChild(mk('path', {
+        d,
+        fill: 'none',
+        stroke: 'rgba(255,255,255,.35)',
+        'stroke-width': '1.6',
+        'clip-path': 'url(#singleNailClip)'
+      }));
+      nailGroup.appendChild(mk('path', {
+        d,
+        fill: 'none',
+        stroke: 'rgba(0,0,0,.12)',
+        'stroke-width': '1'
+      }));
+
+      g.appendChild(nailGroup);
+
+      // Aggiornamento etichette e scheda tecnica della forma
+      document.getElementById('pnDot').style.background = st.col[1];
+      document.getElementById('pnName').textContent = st.col[0];
+      document.getElementById('pnInfo').textContent = SHAPES[st.shape] + ' · ' + finishLabel();
+      const stTitle = document.getElementById('pnShapeTitle');
+      const stDesc = document.getElementById('pnShapeDesc');
+      if (stTitle) stTitle.textContent = 'Forma ' + spec.name;
+      if (stDesc) stDesc.textContent = spec.desc;
+      const stage = document.querySelector('.play-stage'); stage.classList.remove('pop'); void stage.offsetWidth; stage.classList.add('pop');
+    }
+    function chips(elId, list, key, dot) {
+      const el = document.getElementById(elId); if (!el) return;
+      list.forEach((it, i) => {
+        const b = document.createElement('button'); b.type = 'button';
+        b.innerHTML = dot ? `<i style="background:${it[1]}"></i>${it[0]}` : it;
+        b.addEventListener('click', () => { st[key] = i; [...el.children].forEach((c, j) => c.classList.toggle('on', j === i)); draw(); });
+        el.appendChild(b);
+      });
+      el.children[st[key]].classList.add('on');
+    }
+    function finishChips() {
+      const el = document.getElementById('finish'); if (!el) return;
+      const sync = () => {
+        [...el.children].forEach((c, j) => {
+          const active = j === 3 ? st.french : (st.eff === j && !(j === 0 && st.french));
+          c.classList.toggle('on', active || (j === 0 && st.eff === 0 && !st.french));
+        });
+      };
+      FIN.forEach((it, i) => {
+        const b = document.createElement('button'); b.type = 'button';
+        b.textContent = it;
+        b.addEventListener('click', () => {
+          if (i === 3) {
+            // Clic su French: attiva/disattiva la French mantenendo Glitter o Cromato se selezionati!
+            st.french = !st.french;
+          } else if (i === 0) {
+            // Clic su Lucido: torna a Lucido (e se cliccato quando c'è Glitter/Cromato toglie l'effetto, o se già Lucido spegne French)
+            if (st.eff !== 0) { st.eff = 0; } else { st.french = false; }
+          } else {
+            // Clic su Glitter o Cromato: se è già attivo e siamo in French lo commuta, altrimenti lo attiva (combinandosi con French se French è attivo!)
+            st.eff = (st.eff === i && st.french) ? 0 : i;
+          }
+          sync();
+          draw();
+        });
+        el.appendChild(b);
+      });
+      sync();
+    }
+    chips('shape', SHAPES, 'shape'); finishChips();
+    const pal = document.getElementById('palette'); const all = [];
+    PAL.forEach(([grp, cols]) => {
+      const w = document.createElement('div'); w.className = 'pgroup';
+      w.innerHTML = `<small>${grp}</small>`; const d = document.createElement('div'); d.className = 'pdots';
+      cols.forEach(c => {
+        const b = document.createElement('button'); b.type = 'button'; b.title = c[0]; b.setAttribute('aria-label', c[0]); b.style.background = c[1];
+        b.addEventListener('click', () => { st.col = c; all.forEach(x => x.classList.toggle('on', x === b)); draw(); });
+        if (c[0] === st.col[0]) b.classList.add('on');
+        all.push(b); d.appendChild(b);
+      });
+      w.appendChild(d); pal.appendChild(w);
+    });
+    document.getElementById('count').textContent = `· ${all.length} da provare`;
+    document.getElementById('rnd').addEventListener('click', () => {
+      all[Math.floor(Math.random() * all.length)].click();
+      document.getElementById('shape').children[Math.floor(Math.random() * SHAPES.length)].click();
+      st.french = Math.random() < 0.45;
+      st.eff = Math.floor(Math.random() * 3);
+      const finEl = document.getElementById('finish');
+      [...finEl.children].forEach((c, j) => {
+        const active = j === 3 ? st.french : (st.eff === j && !(j === 0 && st.french));
+        c.classList.toggle('on', active || (j === 0 && st.eff === 0 && !st.french));
+      });
+      draw();
+    });
+    draw();
   })();
 
   // === LINK DEL FORM (Typeform di Giorgia): incollalo qui ===
