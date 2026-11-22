@@ -475,22 +475,19 @@
           <stop offset="1" stop-color="#fff" stop-opacity=".32"/>
         </linearGradient>
         <linearGradient id="nailDome" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#000" stop-opacity=".32"/>
-          <stop offset=".13" stop-color="#000" stop-opacity=".06"/>
-          <stop offset=".36" stop-color="#fff" stop-opacity=".22"/>
-          <stop offset=".68" stop-color="#fff" stop-opacity=".05"/>
-          <stop offset=".87" stop-color="#000" stop-opacity=".07"/>
-          <stop offset="1" stop-color="#000" stop-opacity=".36"/>
-        </linearGradient>
-        <linearGradient id="apexShade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#fff" stop-opacity=".16"/>
-          <stop offset=".38" stop-color="#fff" stop-opacity=".07"/>
-          <stop offset=".78" stop-color="#000" stop-opacity=".04"/>
+          <stop offset="0" stop-color="#000" stop-opacity=".18"/>
+          <stop offset=".14" stop-color="#000" stop-opacity="0"/>
+          <stop offset=".86" stop-color="#000" stop-opacity="0"/>
           <stop offset="1" stop-color="#000" stop-opacity=".22"/>
         </linearGradient>
+        <linearGradient id="apexShade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#000" stop-opacity="0"/>
+          <stop offset=".84" stop-color="#000" stop-opacity="0"/>
+          <stop offset="1" stop-color="#000" stop-opacity=".14"/>
+        </linearGradient>
         <linearGradient id="glossMain" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#fff" stop-opacity=".88"/>
-          <stop offset=".55" stop-color="#fff" stop-opacity=".42"/>
+          <stop offset="0" stop-color="#fff" stop-opacity=".82"/>
+          <stop offset=".7" stop-color="#fff" stop-opacity=".42"/>
           <stop offset="1" stop-color="#fff" stop-opacity="0"/>
         </linearGradient>
         <filter id="nailDrop" x="-25%" y="-20%" width="150%" height="150%">
@@ -873,17 +870,19 @@
       // Gruppo principale dell'unghia con doppia ombra morbida da esposizione
       const nailGroup = mk('g', { filter: 'url(#nailDrop)' });
 
-      // 1. Colore pieno oppure base nude-rosata camouflaging quando è attiva la French
+      // 1. Colore pieno reale e fedele al 100% al pallino selezionato (o base nude-rosata quando è attiva la French)
       const baseFill = st.french ? '#f2ced2' : col;
       nailGroup.appendChild(mk('path', { d, fill: baseFill }));
 
-      // 2. Lunula delicata alla base
-      nailGroup.appendChild(mk('path', {
-        d: lunulaPath(),
-        fill: '#ffffff',
-        opacity: st.french ? '.34' : '.10',
-        'clip-path': 'url(#singleNailClip)'
-      }));
+      // 2. Lunula visibile solo sulla base naturale della French (così sul colore pieno il colore resta puro e non sbiadisce)
+      if (st.french) {
+        nailGroup.appendChild(mk('path', {
+          d: lunulaPath(),
+          fill: '#ffffff',
+          opacity: '.28',
+          'clip-path': 'url(#singleNailClip)'
+        }));
+      }
 
       // 3. Punta French a mezzaluna (con possibilità di avere Glitter o Cromato direttamente sulla lunetta French!)
       const fPath = st.french ? frenchTipPath(st.shape) : d;
@@ -913,61 +912,32 @@
         }));
       }
 
-      // 6. Bombatura 3D trasversale (Curva C) e longitudinale (Apex)
+      // 6. Bombatura 3D solo con ombreggiatura sui bordi estremi (zero velo bianco sul centro dell'unghia: il Nero resta Nero puro, il Bordeaux resta Bordeaux puro!)
       nailGroup.appendChild(mk('path', { d, fill: 'url(#nailDome)', 'clip-path': 'url(#singleNailClip)' }));
       nailGroup.appendChild(mk('path', { d, fill: 'url(#apexShade)', 'clip-path': 'url(#singleNailClip)' }));
 
-      // 7. Riflesso speculare longitudinale che segue armoniosamente il profilo della forma selezionata
-      const topOffset = 20;
-      const botY = B - 34;
-      const startX = st.shape === 1 ? cx - 22 : (st.shape === 2 ? cx - 19 : (st.shape === 3 ? cx - 25 : cx - 30));
-      const midX = cx - 31;
+      // 7. UN SOLO BLICK (riflesso speculare), più piccolo, sottile e pulito (tolto il secondo blick a destra e rimpicciolito quello sinistro)
+      const topOffset = st.shape === 1 ? 30 : 36;
+      const botY = B - 96;
+      const startX = st.shape === 1 ? cx - 23 : (st.shape === 2 ? cx - 21 : (st.shape === 3 ? cx - 26 : cx - 29));
+      const midX = cx - 30;
       const endX = cx - 28;
 
-      // Fascio di luce principale da lampada
       nailGroup.appendChild(mk('path', {
-        d: `M ${startX},${T + topOffset} C ${midX},${T + (botY - T) * 0.35} ${midX},${T + (botY - T) * 0.68} ${endX},${botY - 18}`,
+        d: `M ${startX},${T + topOffset} C ${midX},${T + (botY - T) * 0.38} ${midX},${T + (botY - T) * 0.72} ${endX},${botY}`,
         stroke: 'url(#glossMain)',
-        'stroke-width': '11',
+        'stroke-width': '5.5',
         'stroke-linecap': 'round',
         fill: 'none',
-        opacity: effName === 'Cromato' ? '.88' : '.68',
-        'clip-path': 'url(#singleNailClip)'
-      }));
-      // Punto luce inferiore
-      nailGroup.appendChild(mk('circle', {
-        cx: endX + 1.2,
-        cy: botY - 3,
-        r: '4.2',
-        fill: '#ffffff',
-        opacity: '.48',
-        'clip-path': 'url(#singleNailClip)'
-      }));
-      // Riflesso secondario di controluce sul bordo destro
-      const rStartX = st.shape === 1 ? cx + 22 : (st.shape === 2 ? cx + 19 : (st.shape === 3 ? cx + 26 : cx + 31));
-      const rMidX = cx + 35;
-      nailGroup.appendChild(mk('path', {
-        d: `M ${rStartX},${T + topOffset + 10} C ${rMidX},${T + (botY - T) * 0.42} ${rMidX},${T + (botY - T) * 0.72} ${cx + 29},${botY - 24}`,
-        stroke: '#ffffff',
-        'stroke-width': '2.8',
-        'stroke-linecap': 'round',
-        fill: 'none',
-        opacity: '.26',
+        opacity: effName === 'Cromato' ? '.78' : '.58',
         'clip-path': 'url(#singleNailClip)'
       }));
 
-      // 8. Bordo perimetrale di spessore cristallino (sigillatura top coat)
+      // 8. Bordo perimetrale sottile
       nailGroup.appendChild(mk('path', {
         d,
         fill: 'none',
-        stroke: 'rgba(255,255,255,.35)',
-        'stroke-width': '1.6',
-        'clip-path': 'url(#singleNailClip)'
-      }));
-      nailGroup.appendChild(mk('path', {
-        d,
-        fill: 'none',
-        stroke: 'rgba(0,0,0,.12)',
+        stroke: 'rgba(0,0,0,.14)',
         'stroke-width': '1'
       }));
 
