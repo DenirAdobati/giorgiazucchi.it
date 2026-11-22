@@ -278,7 +278,6 @@
 
   @media (prefers-reduced-motion:no-preference){
     .cc-intro [data-billy-intro],
-    .cc-intro [data-loading],
     .cc-intro [data-hello] [data-w],
     .cc-intro [data-card],
     .cc-intro [data-line] [data-w]{opacity:0}
@@ -300,14 +299,11 @@
   <div data-surface="true" class="cc-surface">
     <div class="cc-stage">
 
-      <!-- Layer 1: Mascotte Golden Retriever & Loading -->
+      <!-- Layer 1: Mascotte Golden Retriever -->
       <div class="cc-layer cc-loader">
         <div data-billy-intro="true" class="cc-mascot">
           <img src="img/logo-golden.png" alt="Mascotte Golden Retriever di Giorgia" draggable="false">
         </div>
-        <p data-loading="true" class="cc-loading">
-          Preparo il tavolo<span data-dot="true">.</span><span data-dot="true">.</span><span data-dot="true">.</span>
-        </p>
       </div>
 
       <!-- Layer 2: Saluto ("Ciao, sono Giorgia") -->
@@ -328,12 +324,12 @@
         </figure>
       </div>
 
-      <!-- Layer 4: 3 Frasi della storia -->
+      <!-- Layer 4: 3 Frasi della storia (semplici e dirette) -->
       <p data-line="true" class="cc-layer cc-display cc-line">
-        <span data-w="true">Sto </span><span data-w="true">diventando </span><span data-w="true">onicotecnica </span><span data-w="true">e </span><span data-w="true">regalo </span><span data-w="true" class="cc-primary">5 sedute </span><span data-w="true" class="cc-primary">gratuite</span>
+        <span data-w="true">Amo </span><span data-w="true">il </span><span data-w="true">mondo </span><span data-w="true">delle </span><span data-w="true" class="cc-primary">unghie</span>
       </p>
       <p data-line="true" class="cc-layer cc-display cc-line">
-        <span data-w="true">Mi </span><span data-w="true">servono </span><span data-w="true">mani </span><span data-w="true">vere </span><span data-w="true">su </span><span data-w="true">cui </span><span data-w="true">fare </span><span data-w="true">pratica<span data-ul="true" class="cc-ul"></span></span>
+        <span data-w="true">Regalo </span><span data-w="true" class="cc-primary">5 sedute </span><span data-w="true">per </span><span data-w="true">fare </span><span data-w="true">pratica<span data-ul="true" class="cc-ul"></span></span>
       </p>
       <p data-line="true" class="cc-layer cc-display cc-line big">
         <span data-w="true">Ci </span><span data-w="true">metto </span><span data-w="true">il </span><span data-w="true">cuore</span>
@@ -514,11 +510,11 @@
       htl.to('[data-nav]', { autoAlpha: 1, y: 0, duration: 0.7 }, 0);
       htl.fromTo('[data-split] .split-word',
         { autoAlpha: 0, y: 36, rotateX: -20 },
-        { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.9, stagger: 0.055, ease: 'power4.out' },
+        { autoAlpha: 1, y: 0, rotateX: 0, duration: 1.05, stagger: 0.075, ease: 'power4.out' },
         0.1
       );
-      htl.to('[data-hero]', { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.09 }, 0.35);
-      htl.to('[data-hero-media]', { autoAlpha: 1, y: 0, scale: 1, duration: 1.1, ease: 'power2.out' }, 0.6);
+      htl.to('[data-hero]', { autoAlpha: 1, y: 0, duration: 0.85, stagger: 0.1 }, 0.4);
+      htl.to('[data-hero-media]', { autoAlpha: 1, y: 0, scale: 1, duration: 1.1, ease: 'power2.out' }, 0.65);
     }
 
     if (!intro || reduced || typeof gsap === 'undefined') {
@@ -531,8 +527,6 @@
 
     const surface = intro.querySelector('[data-surface]');
     const billy = intro.querySelector('[data-billy-intro]');
-    const loading = intro.querySelector('[data-loading]');
-    const dots = intro.querySelectorAll('[data-dot]');
     const hello = intro.querySelector('[data-hello]');
     const helloWords = hello.querySelectorAll('[data-w]');
     const stack = intro.querySelector('[data-stack]');
@@ -548,43 +542,29 @@
       }
     });
 
-    // 1. t = 0.00s: Avatar & Loading dots
+    // 1. t = 0.00s: Mascotte
     tl.fromTo(billy,
       { autoAlpha: 0, scale: 0.2, rotate: -24, y: 30 },
       { autoAlpha: 1, scale: 1, rotate: -8, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.55)' },
       0
     );
-    tl.fromTo(loading,
-      { autoAlpha: 0, y: 10 },
-      { autoAlpha: 1, y: 0, duration: 0.4 },
-      0.2
-    );
-    tl.fromTo(dots,
-      { opacity: 0.15 },
-      { opacity: 1, duration: 0.22, stagger: { each: 0.11, repeat: 2, yoyo: true }, ease: 'none' },
-      0.35
-    );
     tl.to(billy,
       { y: -60, scale: 0.5, rotate: 14, autoAlpha: 0, duration: 0.3, ease: 'power3.in' },
       0.85
     );
-    tl.to(loading,
-      { autoAlpha: 0, y: -14, duration: 0.25, ease: 'power3.in' },
-      0.87
-    );
 
-    // 2. t = 1.00s: "Ciao, sono Giorgia"
+    // 2. t = 1.00s: "Ciao, sono Giorgia" (leggermente più lenta)
     tl.fromTo(helloWords,
       { autoAlpha: 0, y: 46, rotateX: -45 },
-      { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.6, stagger: 0.08, ease: 'power4.out' },
+      { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.78, stagger: 0.12, ease: 'power4.out' },
       1.0
     );
     tl.to(hello,
-      { autoAlpha: 0, y: -40, scale: 0.9, duration: 0.3, ease: 'power3.in' },
-      2.55
+      { autoAlpha: 0, y: -40, scale: 0.9, duration: 0.35, ease: 'power3.in' },
+      2.85
     );
 
-    // 3. t = 2.80s: Polaroid Photo Stack (3 foto con stagger 0.3s)
+    // 3. t = 3.15s: Polaroid Photo Stack (velocità delle immagini invariata: duration 0.45s, stagger 0.3s)
     const cardCfg = [
       { x: -26, y: -18, tilt: -7 },
       { x: 30,  y: 14,  tilt: 6 },
@@ -595,48 +575,48 @@
       tl.fromTo(card,
         { autoAlpha: 0, scale: 1.55, rotate: c.tilt + 16, x: c.x, y: c.y + 50, xPercent: -50, yPercent: -50 },
         { autoAlpha: 1, scale: 1, rotate: c.tilt, x: c.x, y: c.y, xPercent: -50, yPercent: -50, duration: 0.45, ease: 'back.out(1.8)' },
-        2.8 + 0.3 * i
+        3.15 + 0.3 * i
       );
     });
 
-    // 4. t = 4.60s: Stack scende sul bordo inferiore + 3 frasi in sequenza
+    // 4. t = 4.95s: Stack scende sul bordo inferiore + 3 frasi in sequenza (scritte un po' più lente)
     tl.to(stack,
       { scale: 0.42, y: '44vh', rotate: -6, duration: 0.6, ease: 'power3.inOut' },
-      4.6
+      4.95
     );
 
     const lineIn = (el, t) => {
       tl.fromTo(el.querySelectorAll('[data-w]'),
         { autoAlpha: 0, y: 34, rotateX: -30 },
-        { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.5, stagger: 0.045, ease: 'power4.out' },
+        { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.68, stagger: 0.07, ease: 'power4.out' },
         t
       );
     };
     const lineOut = (el, t) => {
-      tl.to(el, { autoAlpha: 0, y: -26, duration: 0.28, ease: 'power3.in' }, t);
+      tl.to(el, { autoAlpha: 0, y: -26, duration: 0.35, ease: 'power3.in' }, t);
     };
 
     // Frase 1
-    lineIn(lines[0], 4.65);
-    lineOut(lines[0], 5.65);
+    lineIn(lines[0], 5.0);
+    lineOut(lines[0], 6.45);
 
-    // Frase 2 + sottolineatura arancione
-    lineIn(lines[1], 5.95);
+    // Frase 2 + sottolineatura
+    lineIn(lines[1], 6.8);
     if (ul) {
-      tl.to(ul, { scaleX: 1, duration: 0.3, ease: 'power3.inOut' }, 6.38);
+      tl.to(ul, { scaleX: 1, duration: 0.38, ease: 'power3.inOut' }, 7.45);
     }
-    lineOut(lines[1], 6.95);
+    lineOut(lines[1], 8.25);
 
     // Frase 3 (grande, pop elastico)
-    tl.set(lines[2].querySelectorAll('[data-w]'), { autoAlpha: 1 }, 7.25);
+    tl.set(lines[2].querySelectorAll('[data-w]'), { autoAlpha: 1 }, 8.6);
     tl.fromTo(lines[2],
       { autoAlpha: 0, scale: 0.4, rotate: -6 },
-      { autoAlpha: 1, scale: 1, rotate: 0, duration: 0.9, ease: 'elastic.out(1, 0.5)' },
-      7.25
+      { autoAlpha: 1, scale: 1, rotate: 0, duration: 1.15, ease: 'elastic.out(1, 0.5)' },
+      8.6
     );
 
-    // 5. t = 8.30s ("exit"): Sipario sale verso l'alto e rivela la pagina
-    tl.addLabel('exit', 8.3);
+    // 5. t = 10.05s ("exit"): Sipario sale verso l'alto e rivela la pagina
+    tl.addLabel('exit', 10.05);
     tl.to(lines[2],
       { scale: 0.2, y: '-46vh', autoAlpha: 0, duration: 0.5, ease: 'power3.in' },
       'exit'
