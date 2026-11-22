@@ -343,18 +343,9 @@
   .cc-hello{max-width:14ch;font-size:clamp(42px,7.8vw,68px);line-height:1.02}
   .cc-world-pill{
     display:inline-flex;align-items:center;justify-content:center;
-    width:.95em;height:.95em;vertical-align:-.12em;margin-left:.08em;
-    border-radius:50%;position:relative;
-    box-shadow:0 6px 18px rgba(105,188,248,.45), 0 0 0 2.5px #fff;
-    background:#69BCF8;overflow:visible
+    vertical-align:-.06em;margin-left:.08em;line-height:1;
+    filter:drop-shadow(0 8px 18px rgba(124,58,237,.28))
   }
-  .cc-world-pill svg{width:100%;height:100%;border-radius:50%;display:block;animation:spinWorld 14s linear infinite}
-  .cc-world-pill::after{
-    content:"";position:absolute;top:24%;right:22%;width:22%;height:22%;
-    border-radius:50%;background:#7c3aed;border:1.8px solid #fff;
-    box-shadow:0 0 0 0 rgba(124,58,237,.65);animation:pulse 1.6s infinite
-  }
-  @keyframes spinWorld{0%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}100%{transform:rotate(-8deg)}}
   .cc-line{max-width:16ch;margin:0 auto;font-size:clamp(36px,6.5vw,62px);line-height:1.02}
   .cc-line.big{max-width:14ch;font-size:clamp(50px,10vw,88px);line-height:.96}
   .cc-intro [data-w]{white-space:pre;will-change:transform,opacity;transform-style:preserve-3d;display:inline-block;position:relative}
@@ -412,9 +403,9 @@
         </figure>
       </div>
 
-      <!-- Layer 4: Unica frase dopo le foto ("Adesso vi presento il vostro mondo") -->
+      <!-- Layer 4: Unica frase dopo le foto ("Adesso vi presento il vostro mondo 💅🏻") -->
       <p data-line="true" class="cc-layer cc-display cc-line">
-        <span data-w="true">Adesso </span><span data-w="true">vi </span><span data-w="true">presento </span><span data-w="true">il </span><span data-w="true">vostro </span><span data-w="true" class="cc-primary">mondo <span class="cc-world-pill" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="32" fill="#69BCF8"/><path d="M8 18C15 14 23 16 28 22C33 28 29 36 23 41C17 46 14 54 18 60L0 52L0 22Z" fill="#F2EFE8"/><path d="M40 6C49 8 58 15 62 26C56 31 48 29 44 35C40 41 46 49 41 57C35 55 33 46 35 38C37 30 33 16 40 6Z" fill="#F2EFE8"/><path d="M12 22C17 20 22 22 25 27C23 32 18 35 13 33C9 31 8 25 12 22Z" fill="#DCEAD6"/><path d="M44 14C50 16 55 21 56 26C51 28 46 26 43 22C41 19 42 15 44 14Z" fill="#DCEAD6"/><circle cx="32" cy="32" r="31" stroke="rgba(255,255,255,.55)" stroke-width="2"/></svg></span></span>
+        <span data-w="true">Adesso </span><span data-w="true">vi </span><span data-w="true">presento </span><span data-w="true">il </span><span data-w="true">vostro </span><span data-w="true" class="cc-primary">mondo <span class="cc-world-pill" aria-hidden="true">💅🏻</span></span>
       </p>
     </div>
   </div>
