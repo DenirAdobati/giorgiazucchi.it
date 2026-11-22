@@ -147,6 +147,14 @@
     .stats{flex-wrap:nowrap;max-width:360px;margin-left:auto;margin-right:auto}
   }
 
+  /* VIDEO SALES LETTER */
+  .vsl-wrap{padding-top:44px;scroll-margin-top:90px}
+  .vsl{position:relative;max-width:880px;margin:0 auto;aspect-ratio:16/9;border-radius:22px;overflow:hidden;background:#111;box-shadow:0 24px 50px -24px rgba(0,0,0,.45)}
+  .vsl video,.vsl iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
+  .vsl-ph{position:absolute;top:18px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.45);font-size:13px;font-weight:500;white-space:nowrap}
+  .vsl-btn{position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);z-index:2;display:inline-flex;align-items:center;gap:6px;background:var(--orange);color:#fff;font-weight:700;font-size:clamp(16px,2.4vw,20px);padding:clamp(11px,1.6vw,16px) clamp(24px,3.4vw,38px);border-radius:999px;box-shadow:0 12px 30px rgba(124,58,237,.45);transition:transform .15s, box-shadow .15s}
+  .vsl-btn:hover{transform:translate(-50%,-52%);box-shadow:0 16px 36px rgba(124,58,237,.55)}
+
   /* SEZIONI */
   section{padding:80px 16px 0}
   .globe-section + section{padding-top:44px}
@@ -350,7 +358,7 @@
   <a href="#top" class="logo" aria-label="Giorgia Home"><img src="img/logo-golden.png" alt="Logo Giorgia"></a>
   <a class="l" href="#lavori">Lavori</a>
   <a class="l" href="#zona">Zona</a>
-  <a class="l" href="#come">Come funziona</a>
+  <a class="l" href="#video">Come funziona</a>
   <a class="l" href="#faq">FAQ</a>
   <a class="cta js-form" href="#">Prenota →</a>
 </nav>
@@ -375,66 +383,13 @@
   <div class="map-tag"><span class="live-dot"></span> Da Lierna a Lecco fino a Calolziocorte</div>
 </div>
 
-<section class="center reveal">
-  <h2>Cinque sedute. Una persona alla volta. Gratis.</h2>
-  <p class="sub">Ho finito il corso base e adesso mi serve una cosa sola: mani vere su cui fare pratica. Le tue.</p>
+<section class="vsl-wrap reveal" id="video">
+  <div class="vsl">
+    <!-- VIDEO: qui andrà il video (es. <video> o iframe) -->
+    <span class="vsl-ph">Qui arriva il video</span>
+    <a class="vsl-btn js-typeform" href="#">Prenota →</a>
+  </div>
 </section>
-
-<div class="grid" id="come">
-  <div class="card c-orange reveal">
-    <div class="ic">💕</div>
-    <div class="kick">Perché gratis</div>
-    <h3>Sto imparando. E voglio farlo bene.</h3>
-    <ul class="checks">
-      <li>Ho fatto il corso base con Veronica Nails Como</li>
-      <li>Ora mi servono 5 persone per fare pratica</li>
-      <li>Ci metto tutto il tempo e la cura che servono</li>
-    </ul>
-    <a class="pill js-form" href="#">Prendi un posto ›</a>
-    <div class="photo r"><img src="img/giorgia-1.jpg" alt="Giorgia durante il suo percorso da onicotecnica" loading="lazy" style="object-position:center 55%"></div>
-  </div>
-
-  <div class="card c-pink reveal">
-    <div class="ic">💅</div>
-    <div class="kick">Cosa facciamo</div>
-    <h3>Semipermanente rinforzato, curato nei dettagli.</h3>
-    <ul class="checks">
-      <li>Prima guardiamo insieme le tue unghie</li>
-      <li>Scegliamo forma e colore che ti piacciono</li>
-      <li>Alla fine mi dici sinceramente com'è andata</li>
-    </ul>
-    <div class="ba" style="--x:50%">
-      <img src="img/prima.jpg" alt="Unghie prima del trattamento" loading="lazy">
-      <img class="after" src="img/dopo.jpg" alt="Unghie dopo il semipermanente rinforzato di Giorgia" loading="lazy">
-      <span class="tag l">Prima</span><span class="tag r">Dopo</span>
-      <div class="bar"></div><div class="knob">‹›</div>
-      <input type="range" min="0" max="100" value="50" aria-label="Scorri per confrontare prima e dopo">
-    </div>
-  </div>
-
-  <div class="card c-green reveal">
-    <div class="ic">📍</div>
-    <div class="kick">La zona</div>
-    <h3>Da Lierna a Lecco, fino a Calolziocorte.</h3>
-    <ul class="checks">
-      <li>Ramo di Lecco: da Lierna e Mandello del Lario</li>
-      <li>Lecco e dintorni</li>
-      <li>Fino a Calolziocorte</li>
-    </ul>
-    <a class="pill" href="#zona">Guarda la mappa ›</a>
-  </div>
-
-  <div class="card c-blue reveal">
-    <div class="ic">✨</div>
-    <div class="kick">Come funziona</div>
-    <h3>Tre passi, e il posto è tuo.</h3>
-    <ol class="steps">
-      <li>Compili il modulo: due minuti</li>
-      <li>Ti scrivo io per fissare giorno e ora</li>
-      <li>Ci vediamo per la tua seduta</li>
-    </ol>
-  </div>
-</div>
 
 <section class="center reveal" id="lavori">
   <h2>Unghia dopo unghia.</h2>
@@ -644,9 +599,20 @@
   // === LINK DEL FORM (Typeform di Giorgia): incollalo qui ===
   const FORM_URL = "#";
 
-  document.querySelectorAll('.js-form').forEach(a => {
+  // Solo il tasto dentro il video porta al Typeform
+  document.querySelectorAll('.js-typeform').forEach(a => {
     a.href = FORM_URL;
     if (FORM_URL !== '#') { a.target = '_blank'; a.rel = 'noopener'; }
+  });
+
+  // Tutti gli altri "Prenota" portano prima al video (video sales letter)
+  document.querySelectorAll('.js-form').forEach(a => {
+    a.href = '#video';
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('video').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      history.replaceState(null, '', '#video');
+    });
   });
 
   // prima / dopo
