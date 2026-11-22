@@ -266,7 +266,21 @@
   @media (min-width:1024px){.cc-mascot{width:172px;height:152px}}
   .cc-loading{font-size:14px;font-weight:500;color:var(--muted)}
   .cc-display{font-weight:800;letter-spacing:-.045em;line-height:.96;color:var(--ink)}
-  .cc-hello{max-width:12ch;font-size:clamp(46px,9vw,76px)}
+  .cc-hello{max-width:14ch;font-size:clamp(42px,7.8vw,68px);line-height:1.02}
+  .cc-world-pill{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:.95em;height:.95em;vertical-align:-.12em;margin-left:.08em;
+    border-radius:50%;position:relative;
+    box-shadow:0 6px 18px rgba(105,188,248,.45), 0 0 0 2.5px #fff;
+    background:#69BCF8;overflow:visible
+  }
+  .cc-world-pill svg{width:100%;height:100%;border-radius:50%;display:block;animation:spinWorld 14s linear infinite}
+  .cc-world-pill::after{
+    content:"";position:absolute;top:24%;right:22%;width:22%;height:22%;
+    border-radius:50%;background:#7c3aed;border:1.8px solid #fff;
+    box-shadow:0 0 0 0 rgba(124,58,237,.65);animation:pulse 1.6s infinite
+  }
+  @keyframes spinWorld{0%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}100%{transform:rotate(-8deg)}}
   .cc-line{max-width:16ch;margin:0 auto;font-size:clamp(36px,6.5vw,62px);line-height:1.02}
   .cc-line.big{max-width:14ch;font-size:clamp(50px,10vw,88px);line-height:.96}
   .cc-intro [data-w]{white-space:pre;will-change:transform,opacity;transform-style:preserve-3d;display:inline-block;position:relative}
@@ -306,9 +320,9 @@
         </div>
       </div>
 
-      <!-- Layer 2: Saluto ("Ciao, sono Giorgia") -->
+      <!-- Layer 2: Saluto ("Ciao, sono Giorgia. Vi presento il mio mondo.") -->
       <div data-hello="true" class="cc-layer cc-display cc-hello">
-        <span data-w="true">Ciao, </span><span data-w="true">sono </span><span data-w="true">Giorgia</span>
+        <span data-w="true">Ciao, </span><span data-w="true">sono </span><span data-w="true">Giorgia. </span><span data-w="true">Vi </span><span data-w="true">presento </span><span data-w="true">il </span><span data-w="true">mio </span><span data-w="true" class="cc-primary">mondo. <span class="cc-world-pill" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="32" fill="#69BCF8"/><path d="M8 18C15 14 23 16 28 22C33 28 29 36 23 41C17 46 14 54 18 60L0 52L0 22Z" fill="#F2EFE8"/><path d="M40 6C49 8 58 15 62 26C56 31 48 29 44 35C40 41 46 49 41 57C35 55 33 46 35 38C37 30 33 16 40 6Z" fill="#F2EFE8"/><path d="M12 22C17 20 22 22 25 27C23 32 18 35 13 33C9 31 8 25 12 22Z" fill="#DCEAD6"/><path d="M44 14C50 16 55 21 56 26C51 28 46 26 43 22C41 19 42 15 44 14Z" fill="#DCEAD6"/><circle cx="32" cy="32" r="31" stroke="rgba(255,255,255,.55)" stroke-width="2"/></svg></span></span>
       </div>
 
       <!-- Layer 3: Stack di 3 Polaroid (con il gattino di Giorgia!) -->
@@ -326,7 +340,7 @@
 
       <!-- Layer 4: 3 Frasi della storia (semplici e dirette) -->
       <p data-line="true" class="cc-layer cc-display cc-line">
-        <span data-w="true">Amo </span><span data-w="true">il </span><span data-w="true">mondo </span><span data-w="true">delle </span><span data-w="true" class="cc-primary">unghie</span>
+        <span data-w="true">Amo </span><span data-w="true">il </span><span data-w="true">mondo <span class="cc-world-pill" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="32" fill="#69BCF8"/><path d="M8 18C15 14 23 16 28 22C33 28 29 36 23 41C17 46 14 54 18 60L0 52L0 22Z" fill="#F2EFE8"/><path d="M40 6C49 8 58 15 62 26C56 31 48 29 44 35C40 41 46 49 41 57C35 55 33 46 35 38C37 30 33 16 40 6Z" fill="#F2EFE8"/><path d="M12 22C17 20 22 22 25 27C23 32 18 35 13 33C9 31 8 25 12 22Z" fill="#DCEAD6"/><path d="M44 14C50 16 55 21 56 26C51 28 46 26 43 22C41 19 42 15 44 14Z" fill="#DCEAD6"/><circle cx="32" cy="32" r="31" stroke="rgba(255,255,255,.55)" stroke-width="2"/></svg></span> </span><span data-w="true">delle </span><span data-w="true" class="cc-primary">unghie</span>
       </p>
       <p data-line="true" class="cc-layer cc-display cc-line">
         <span data-w="true">Regalo </span><span data-w="true" class="cc-primary">5 sedute </span><span data-w="true">per </span><span data-w="true">fare </span><span data-w="true">pratica<span data-ul="true" class="cc-ul"></span></span>
@@ -510,11 +524,11 @@
       htl.to('[data-nav]', { autoAlpha: 1, y: 0, duration: 0.7 }, 0);
       htl.fromTo('[data-split] .split-word',
         { autoAlpha: 0, y: 36, rotateX: -20 },
-        { autoAlpha: 1, y: 0, rotateX: 0, duration: 1.05, stagger: 0.075, ease: 'power4.out' },
+        { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.85, stagger: 0.055, ease: 'power4.out' },
         0.1
       );
-      htl.to('[data-hero]', { autoAlpha: 1, y: 0, duration: 0.85, stagger: 0.1 }, 0.4);
-      htl.to('[data-hero-media]', { autoAlpha: 1, y: 0, scale: 1, duration: 1.1, ease: 'power2.out' }, 0.65);
+      htl.to('[data-hero]', { autoAlpha: 1, y: 0, duration: 0.78, stagger: 0.085 }, 0.35);
+      htl.to('[data-hero-media]', { autoAlpha: 1, y: 0, scale: 1, duration: 1.05, ease: 'power2.out' }, 0.58);
     }
 
     if (!intro || reduced || typeof gsap === 'undefined') {
@@ -542,29 +556,34 @@
       }
     });
 
-    // 1. t = 0.00s: Mascotte
+    // 1. t = 0.00s: Mascotte dinamica e veloce
     tl.fromTo(billy,
       { autoAlpha: 0, scale: 0.2, rotate: -24, y: 30 },
-      { autoAlpha: 1, scale: 1, rotate: -8, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.55)' },
+      { autoAlpha: 1, scale: 1, rotate: -8, y: 0, duration: 0.65, ease: 'elastic.out(1, 0.55)' },
       0
     );
     tl.to(billy,
-      { y: -60, scale: 0.5, rotate: 14, autoAlpha: 0, duration: 0.3, ease: 'power3.in' },
+      { y: -60, scale: 0.5, rotate: 14, autoAlpha: 0, duration: 0.28, ease: 'power3.in' },
+      0.72
+    );
+
+    // 2. t = 0.85s: "Ciao, sono Giorgia. Vi presento il mio mondo." (veloce, scattante e dinamica)
+    tl.fromTo(helloWords,
+      { autoAlpha: 0, y: 42, rotateX: -45 },
+      { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.48, stagger: 0.055, ease: 'power4.out' },
       0.85
     );
-
-    // 2. t = 1.00s: "Ciao, sono Giorgia" (leggermente più lenta)
-    tl.fromTo(helloWords,
-      { autoAlpha: 0, y: 46, rotateX: -45 },
-      { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.78, stagger: 0.12, ease: 'power4.out' },
-      1.0
+    tl.fromTo(hello.querySelector('.cc-world-pill'),
+      { scale: 0, rotate: -35 },
+      { scale: 1, rotate: 0, duration: 0.55, ease: 'back.out(2.2)' },
+      1.22
     );
     tl.to(hello,
-      { autoAlpha: 0, y: -40, scale: 0.9, duration: 0.35, ease: 'power3.in' },
-      2.85
+      { autoAlpha: 0, y: -40, scale: 0.9, duration: 0.28, ease: 'power3.in' },
+      2.35
     );
 
-    // 3. t = 3.15s: Polaroid Photo Stack (velocità delle immagini invariata: duration 0.45s, stagger 0.3s)
+    // 3. t = 2.60s: Polaroid Photo Stack (dinamico come prima: duration 0.45s, stagger 0.28s)
     const cardCfg = [
       { x: -26, y: -18, tilt: -7 },
       { x: 30,  y: 14,  tilt: 6 },
@@ -575,48 +594,56 @@
       tl.fromTo(card,
         { autoAlpha: 0, scale: 1.55, rotate: c.tilt + 16, x: c.x, y: c.y + 50, xPercent: -50, yPercent: -50 },
         { autoAlpha: 1, scale: 1, rotate: c.tilt, x: c.x, y: c.y, xPercent: -50, yPercent: -50, duration: 0.45, ease: 'back.out(1.8)' },
-        3.15 + 0.3 * i
+        2.6 + 0.28 * i
       );
     });
 
-    // 4. t = 4.95s: Stack scende sul bordo inferiore + 3 frasi in sequenza (scritte un po' più lente)
+    // 4. t = 4.25s: Stack scende sul bordo inferiore + 3 frasi dinamiche in sequenza
     tl.to(stack,
-      { scale: 0.42, y: '44vh', rotate: -6, duration: 0.6, ease: 'power3.inOut' },
-      4.95
+      { scale: 0.42, y: '44vh', rotate: -6, duration: 0.55, ease: 'power3.inOut' },
+      4.25
     );
 
     const lineIn = (el, t) => {
       tl.fromTo(el.querySelectorAll('[data-w]'),
         { autoAlpha: 0, y: 34, rotateX: -30 },
-        { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.68, stagger: 0.07, ease: 'power4.out' },
+        { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.48, stagger: 0.048, ease: 'power4.out' },
         t
       );
+      const pill = el.querySelector('.cc-world-pill');
+      if (pill) {
+        tl.fromTo(pill,
+          { scale: 0, rotate: -30 },
+          { scale: 1, rotate: 0, duration: 0.5, ease: 'back.out(2.2)' },
+          t + 0.14
+        );
+      }
     };
     const lineOut = (el, t) => {
-      tl.to(el, { autoAlpha: 0, y: -26, duration: 0.35, ease: 'power3.in' }, t);
+      tl.to(el, { autoAlpha: 0, y: -26, duration: 0.26, ease: 'power3.in' }, t);
     };
 
-    // Frase 1
-    lineIn(lines[0], 5.0);
-    lineOut(lines[0], 6.45);
+    // Frase 1: "Amo il mondo 🌍 delle unghie"
+    lineIn(lines[0], 4.3);
+    lineOut(lines[0], 5.35);
 
-    // Frase 2 + sottolineatura
-    lineIn(lines[1], 6.8);
+    // Frase 2: "Regalo 5 sedute per fare pratica" + sottolineatura
+    lineIn(lines[1], 5.62);
     if (ul) {
-      tl.to(ul, { scaleX: 1, duration: 0.38, ease: 'power3.inOut' }, 7.45);
+      tl.to(ul, { scaleX: 1, duration: 0.28, ease: 'power3.inOut' }, 6.02);
     }
-    lineOut(lines[1], 8.25);
+    lineOut(lines[1], 6.62);
 
-    // Frase 3 (grande, pop elastico)
-    tl.set(lines[2].querySelectorAll('[data-w]'), { autoAlpha: 1 }, 8.6);
+    // Frase 3 (grande, pop elastico): "Ci metto il cuore"
+    tl.set(lines[2].querySelectorAll('[data-w]'), { autoAlpha: 1 }, 6.9);
     tl.fromTo(lines[2],
       { autoAlpha: 0, scale: 0.4, rotate: -6 },
-      { autoAlpha: 1, scale: 1, rotate: 0, duration: 1.15, ease: 'elastic.out(1, 0.5)' },
-      8.6
+      { autoAlpha: 1, scale: 1, rotate: 0, duration: 0.88, ease: 'elastic.out(1, 0.5)' },
+      6.9
     );
 
-    // 5. t = 10.05s ("exit"): Sipario sale verso l'alto e rivela la pagina
-    tl.addLabel('exit', 10.05);
+    // 5. t = 7.95s ("exit"): Sipario sale verso l'alto e rivela la pagina
+    tl.addLabel('exit', 7.95);
     tl.to(lines[2],
       { scale: 0.2, y: '-46vh', autoAlpha: 0, duration: 0.5, ease: 'power3.in' },
       'exit'
